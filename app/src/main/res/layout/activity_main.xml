@@ -20,10 +20,7 @@
             android:layout_marginLeft="100dp"
             android:layout_marginTop="10dp"
             android:textSize="25dp"
-            android:text="task"/>
-
-
-
+            android:text="Task"/>
 
     </com.google.android.material.appbar.AppBarLayout>
     <com.google.android.material.tabs.TabLayout
