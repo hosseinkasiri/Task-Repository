@@ -12,17 +12,17 @@ import android.view.ViewGroup;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class UnDoneFragment extends Fragment {
+public class AddFragment extends Fragment {
 
-    public UnDoneFragment() {
+    public AddFragment() {
         // Required empty public constructor
     }
 
-    public static UnDoneFragment newInstance() {
+    public static AddFragment newInstance() {
         
         Bundle args = new Bundle();
         
-        UnDoneFragment fragment = new UnDoneFragment();
+        AddFragment fragment = new AddFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -31,7 +31,9 @@ public class UnDoneFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_un_done, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_add, container, false);
+
+        return view;
     }
 }

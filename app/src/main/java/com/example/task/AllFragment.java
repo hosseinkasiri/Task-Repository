@@ -1,5 +1,6 @@
 package com.example.task;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -18,9 +19,9 @@ public class AllFragment extends Fragment {
 
     private ImageButton mAddButton;
     private ImageView mImageView;
-
+ 
     public AllFragment() {
-        // Required empty public constructor
+       
     }
 
     public static AllFragment newInstance() {
@@ -41,6 +42,17 @@ public class AllFragment extends Fragment {
 
         mImageView = view.findViewById(R.id.imageView);
         mAddButton = view.findViewById(R.id.add_button);
+        
+        mAddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = AddActivity.newIntent(getActivity());
+                
+                startActivityForResult(intent , 0);
+                
+            }
+        });
 
         return view;
     }

@@ -28,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         adapter.addFragment(AllFragment.newInstance() , "All");
-        adapter.addFragment(DoneFragment.newInstance() , "Done");
-        adapter.addFragment(UnDoneFragment.newInstance() , "UnDone");
+        adapter.addFragment(AllFragment.newInstance() , "Done");
+        adapter.addFragment(AllFragment.newInstance() , "UnDone");
 
         mViewPager.setAdapter(adapter);
         mTabLayout.setupWithViewPager(mViewPager);
