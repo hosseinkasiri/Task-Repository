@@ -33,8 +33,8 @@
         app:tabGravity="fill"
         app:tabMode="fixed"
         android:id="@+id/tab_layout_id"
-        app:tabTextColor="@color/tabTextColor">
-    </com.google.android.material.tabs.TabLayout>
+        app:tabTextColor="@color/tabTextColor"/>
+
         <androidx.viewpager.widget.ViewPager
             android:layout_width="match_parent"
             android:layout_height="match_parent"
