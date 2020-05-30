@@ -7,6 +7,7 @@
     tools:context=".AllFragment">
 
     <ImageButton
+        android:id="@+id/add_button"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:src="@drawable/ic_action_positive"
@@ -14,8 +15,12 @@
         android:layout_gravity="bottom|right"
         android:layout_margin="10dp"/>
 
-
-
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/image_do_not_task"
+        android:layout_gravity="center"/>
 
 
 </FrameLayout>

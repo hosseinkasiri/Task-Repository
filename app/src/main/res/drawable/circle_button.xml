@@ -9,7 +9,7 @@
         android:color="@color/positiveButtonColor"/>
 
     <corners
-        android:radius="25dp"/>
+        android:radius="40dp"/>
 
 
 
