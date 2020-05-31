@@ -9,6 +9,8 @@ public class Task {
 
     private Date mDate;
 
+    private boolean mDone;
+
     public Task() {
 
         mDate = new Date();
@@ -29,5 +31,13 @@ public class Task {
 
     public void setDate(Date date) {
         mDate = date;
+    }
+
+    public boolean isDone() {
+        return mDone;
+    }
+
+    public void setDone(boolean done) {
+        mDone = done;
     }
 }

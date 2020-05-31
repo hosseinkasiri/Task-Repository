@@ -3,6 +3,8 @@ package com.example.task;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.appbar.AppBarLayout;
@@ -15,6 +17,12 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
 
 
+    public static Intent newIntent(Context context){
+
+        Intent intent = new Intent(context , MainActivity.class);
+
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
