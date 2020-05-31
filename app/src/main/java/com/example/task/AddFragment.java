@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -29,6 +30,7 @@ public class AddFragment extends Fragment {
     private Button mCancelButton;
     private Button mDoneButton;
     private CheckBox mDoneCheckBox;
+    private EditText mTitleText;
 
     public AddFragment() {
         // Required empty public constructor
@@ -53,8 +55,15 @@ public class AddFragment extends Fragment {
         findViews(view);
 
         mTask = new Task();
-        mTask.setDescription(mDescriptionText.getText().toString());
         mDateText.setText(mTask.getDate().toString());
+
+
+        mDoneCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mTask.setDone(isChecked);
+            }
+        });
 
         mDoneButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +71,7 @@ public class AddFragment extends Fragment {
 
                 Task task = mTask;
                 task.setDescription(mDescriptionText.getText().toString());
+                task.setTitle(mTitleText.getText().toString());
 
                 TaskLab.getInstance().addTask(task);
 
@@ -98,5 +108,7 @@ public class AddFragment extends Fragment {
         mCancelButton = view.findViewById(R.id.cancel_button);
         mDoneButton = view.findViewById(R.id.done_button);
         mDoneCheckBox = view.findViewById(R.id.done_checkBox);
+        mTitleText = view.findViewById(R.id.title_edit_id);
+
     }
 }

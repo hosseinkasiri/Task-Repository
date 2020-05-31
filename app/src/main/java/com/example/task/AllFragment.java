@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,7 @@ public class AllFragment extends Fragment {
 
     private ImageButton mAddButton;
     private ImageView mImageView;
+    private RecyclerView mRecyclerView;
  
     public AllFragment() {
        
@@ -40,9 +43,8 @@ public class AllFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_all, container, false);
 
-        mImageView = view.findViewById(R.id.imageView);
-        mAddButton = view.findViewById(R.id.add_button);
-        
+        findViews(view);
+
         mAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,6 +56,19 @@ public class AllFragment extends Fragment {
             }
         });
 
+       // mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+
+
+
+
+
         return view;
+    }
+
+    private void findViews(View view) {
+        mImageView = view.findViewById(R.id.imageView);
+        mAddButton = view.findViewById(R.id.add_button);
+        mRecyclerView = view.findViewById(R.id.recycler_view);
     }
 }

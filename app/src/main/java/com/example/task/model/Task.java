@@ -5,6 +5,8 @@ import java.util.Timer;
 
 public class Task {
 
+    private String mTitle;
+
     private String mDescription;
 
     private Date mDate;
@@ -39,5 +41,13 @@ public class Task {
 
     public void setDone(boolean done) {
         mDone = done;
+    }
+
+    public String getTitle() {
+        return mTitle;
+    }
+
+    public void setTitle(String title) {
+        mTitle = title;
     }
 }
