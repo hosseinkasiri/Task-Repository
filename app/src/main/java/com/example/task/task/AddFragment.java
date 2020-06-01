@@ -1,4 +1,4 @@
-package com.example.task;
+package com.example.task.task;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.task.R;
 import com.example.task.model.Task;
 import com.example.task.model.TaskLab;
 
@@ -56,6 +57,7 @@ public class AddFragment extends Fragment {
 
         mTask = new Task();
         mDateText.setText(mTask.getDate().toString());
+        //mTimeText.setText(String.valueOf(mTask.getDate().getTime()));
 
 
         mDoneCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

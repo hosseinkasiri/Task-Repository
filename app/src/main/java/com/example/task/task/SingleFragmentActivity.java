@@ -1,4 +1,4 @@
-package com.example.task;
+package com.example.task.task;
 
 import android.os.Bundle;
 
@@ -6,6 +6,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+
+import com.example.task.R;
 
 public abstract class SingleFragmentActivity extends AppCompatActivity {
 
