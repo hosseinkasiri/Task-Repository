@@ -1,5 +1,9 @@
 package com.example.task.model;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +37,22 @@ public class TaskLab {
         return mTasks;
     }
 
-    public List<Task> getTasks() {
-        return mTasks;
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public List<Task> getTasks(TaskListMode taskListMode) {
+
+        List<Task> tasks = new ArrayList<>(mTasks);
+        switch (taskListMode){
+            case all:
+                return tasks;
+
+            case done:
+                tasks.removeIf(task -> !task.isDone());
+                return tasks;
+
+            case unDone:
+                tasks.removeIf(Task::isDone);
+                return tasks;
+        }
+        return tasks;
     }
 }
