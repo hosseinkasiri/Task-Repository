@@ -13,6 +13,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.task.R;
 import com.example.task.model.Task;
@@ -71,16 +72,20 @@ public class AddFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                Task task = mTask;
-                task.setDescription(mDescriptionText.getText().toString());
-                task.setTitle(mTitleText.getText().toString());
+                if (mTitleText.getText().toString().matches("")){
+                    Toast.makeText(getActivity() , "please enter title " , Toast.LENGTH_SHORT).show();
+                }
 
-                TaskLab.getInstance().addTask(task);
+                else {
+                    Task task = mTask;
+                    task.setDescription(mDescriptionText.getText().toString());
+                    task.setTitle(mTitleText.getText().toString());
 
-                Intent intent = MainActivity.newIntent(getActivity());
+                    TaskLab.getInstance().addTask(task);
+                    Intent intent = MainActivity.newIntent(getActivity());
+                    startActivity(intent);
 
-                startActivity(intent);
-
+                }
             }
         });
 

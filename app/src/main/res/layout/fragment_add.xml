@@ -41,6 +41,8 @@
     <EditText
         android:id="@+id/title_edit_id"
         android:layout_width="match_parent"
+        android:hint="must be entered"
+        android:textColorHint="@color/positiveButtonColor"
         android:layout_height="wrap_content"/>
 
 
@@ -83,9 +85,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center" />
 
-
-
-
     </FrameLayout>
 
     <CheckBox
@@ -94,10 +93,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Done"/>
-
-
-
-
 
 
 </LinearLayout>
