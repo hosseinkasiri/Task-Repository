@@ -14,6 +14,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.example.task.R;
+import com.example.task.model.Task;
+import com.example.task.model.TaskLab;
+import com.example.task.model.TaskListMode;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -24,20 +30,19 @@ public class AllFragment extends Fragment {
     private ImageButton mAddButton;
     private ImageView mImageView;
     private RecyclerView mRecyclerView;
- 
-    public AllFragment() {
-       
-    }
+    private List<Task> mTasks = new ArrayList<>();
+    private TaskListMode mListMode = (TaskListMode) getArguments().getSerializable(ARGS_TASK_MODE);
+    private static final String ARGS_TASK_MODE = " package com.example.task.task_task mode";
 
-    public static AllFragment newInstance() {
+
+    public static AllFragment newInstance(TaskListMode listMode) {
         
         Bundle args = new Bundle();
-        
+        args.putSerializable(ARGS_TASK_MODE , listMode);
         AllFragment fragment = new AllFragment();
         fragment.setArguments(args);
         return fragment;
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,21 +51,18 @@ public class AllFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_all, container, false);
 
         findViews(view);
-
         mAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Intent intent = AddActivity.newIntent(getActivity());
-                
                 startActivityForResult(intent , 0);
-                
             }
         });
-
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-
+        mTasks =  TaskLab.getInstance().getTasks(mListMode);
+        TaskAdapter adapter = new TaskAdapter(mTasks , getActivity());
+        mRecyclerView.setAdapter(adapter);
 
         return view;
     }

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.task.R;
+import com.example.task.model.TaskListMode;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
 
@@ -36,9 +37,9 @@ public class MainActivity extends AppCompatActivity {
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        adapter.addFragment(AllFragment.newInstance() , "All");
-        adapter.addFragment(AllFragment.newInstance() , "Done");
-        adapter.addFragment(AllFragment.newInstance() , "UnDone");
+        adapter.addFragment(AllFragment.newInstance(TaskListMode.all) , "All" );
+        adapter.addFragment(AllFragment.newInstance(TaskListMode.done) , "Done");
+        adapter.addFragment(AllFragment.newInstance(TaskListMode.unDone) , "UnDone");
 
         mViewPager.setAdapter(adapter);
         mTabLayout.setupWithViewPager(mViewPager);
