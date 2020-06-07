@@ -30,8 +30,7 @@ public class AllFragment extends Fragment {
     private ImageButton mAddButton;
     private ImageView mImageView;
     private RecyclerView mRecyclerView;
-    private List<Task> mTasks = new ArrayList<>();
-    private TaskListMode mListMode = (TaskListMode) getArguments().getSerializable(ARGS_TASK_MODE);
+    private List<Task> mTasks ;
     private static final String ARGS_TASK_MODE = " package com.example.task.task_task mode";
 
 
@@ -60,8 +59,9 @@ public class AllFragment extends Fragment {
             }
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mTasks =  TaskLab.getInstance().getTasks(mListMode);
-        TaskAdapter adapter = new TaskAdapter(mTasks , getActivity());
+        TaskListMode listMode = (TaskListMode) getArguments().getSerializable(ARGS_TASK_MODE);
+        mTasks =  TaskLab.getInstance().getTasks(listMode);
+        TaskAdapter adapter = new TaskAdapter(getActivity() , mTasks);
         mRecyclerView.setAdapter(adapter);
 
         return view;

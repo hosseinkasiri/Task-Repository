@@ -17,6 +17,9 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
     private AppBarLayout mAppBarLayout;
     private ViewPager mViewPager;
+    private TaskListMode mAll = TaskListMode.all;
+    private TaskListMode mDone = TaskListMode.done;
+    private TaskListMode mUnDone = TaskListMode.unDone;
 
 
     public static Intent newIntent(Context context){
@@ -37,9 +40,9 @@ public class MainActivity extends AppCompatActivity {
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        adapter.addFragment(AllFragment.newInstance(TaskListMode.all) , "All" );
-        adapter.addFragment(AllFragment.newInstance(TaskListMode.done) , "Done");
-        adapter.addFragment(AllFragment.newInstance(TaskListMode.unDone) , "UnDone");
+        adapter.addFragment(AllFragment.newInstance(mAll) , "All" );
+        adapter.addFragment(AllFragment.newInstance(mDone) , "Done");
+        adapter.addFragment(AllFragment.newInstance(mUnDone) , "UnDone");
 
         mViewPager.setAdapter(adapter);
         mTabLayout.setupWithViewPager(mViewPager);

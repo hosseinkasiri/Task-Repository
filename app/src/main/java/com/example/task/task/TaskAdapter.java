@@ -19,7 +19,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskHolder> {
     private List<Task> mTasks ;
     private Context mContext;
 
-    public TaskAdapter(List<Task> tasks, Context context) {
+    public TaskAdapter(Context context , List<Task> tasks) {
         mTasks = tasks;
         mContext = context;
     }

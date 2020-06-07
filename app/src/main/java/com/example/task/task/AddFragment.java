@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.task.R;
 import com.example.task.model.Task;
 import com.example.task.model.TaskLab;
+import com.example.task.model.Toaster;
 
 
 /**
@@ -33,6 +34,7 @@ public class AddFragment extends Fragment {
     private Button mDoneButton;
     private CheckBox mDoneCheckBox;
     private EditText mTitleText;
+    private Toaster mToaster = new Toaster();
 
     public AddFragment() {
         // Required empty public constructor
@@ -73,18 +75,16 @@ public class AddFragment extends Fragment {
             public void onClick(View v) {
 
                 if (mTitleText.getText().toString().matches("")){
-                    Toast.makeText(getActivity() , "please enter title " , Toast.LENGTH_SHORT).show();
+                    mToaster.makeToast(getActivity() , "please enter title");
                 }
 
                 else {
                     Task task = mTask;
                     task.setDescription(mDescriptionText.getText().toString());
                     task.setTitle(mTitleText.getText().toString());
-
                     TaskLab.getInstance().addTask(task);
                     Intent intent = MainActivity.newIntent(getActivity());
                     startActivity(intent);
-
                 }
             }
         });
@@ -94,17 +94,9 @@ public class AddFragment extends Fragment {
             public void onClick(View v) {
 
                 Intent intent = MainActivity.newIntent(getActivity());
-
                 startActivity(intent);
-
-
             }
         });
-
-
-
-
-
         return view;
     }
 

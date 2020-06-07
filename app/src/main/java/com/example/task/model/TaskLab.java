@@ -20,14 +20,14 @@ public class TaskLab {
 
         if (mInstance == null){
             mInstance = new TaskLab();
+            return mInstance;
         }
         return mInstance;
     }
 
-    public List<Task> addTask(Task task){
+    public void addTask(Task task){
 
         mTasks.add(task);
-        return mTasks;
     }
 
     public List<Task> getTasks(TaskListMode taskListMode) {
@@ -35,15 +35,15 @@ public class TaskLab {
         List<Task> tasks = new ArrayList<>(mTasks);
         switch (taskListMode){
             case all:
-                return tasks;
+                break;
 
             case done:
                 tasks.removeIf(task -> !task.isDone());
-                return tasks;
+                break;
 
             case unDone:
                 tasks.removeIf(Task::isDone);
-                return tasks;
+                break;
         }
         return tasks;
     }
