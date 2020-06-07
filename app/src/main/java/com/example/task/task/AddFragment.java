@@ -83,8 +83,7 @@ public class AddFragment extends Fragment {
                     task.setDescription(mDescriptionText.getText().toString());
                     task.setTitle(mTitleText.getText().toString());
                     TaskLab.getInstance().addTask(task);
-                    Intent intent = MainActivity.newIntent(getActivity());
-                    startActivity(intent);
+                   getActivity().finish();
                 }
             }
         });

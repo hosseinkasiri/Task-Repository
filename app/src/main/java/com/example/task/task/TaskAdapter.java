@@ -12,10 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.task.R;
 import com.example.task.model.Task;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskHolder> {
-
     private List<Task> mTasks ;
     private Context mContext;
 
@@ -35,7 +36,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull TaskHolder holder, int position) {
-
         Task task = mTasks.get(position);
         holder.bind(task);
     }
@@ -47,22 +47,21 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskHolder> {
 }
 
 class TaskHolder extends RecyclerView.ViewHolder{
-
     private TextView mFirstText;
     private TextView mTitleText;
     private TextView mDateText;
 
     public TaskHolder(@NonNull View itemView) {
         super(itemView);
-
         mFirstText = itemView.findViewById(R.id.first_text_show);
         mTitleText = itemView.findViewById(R.id.title_show_text);
         mDateText = itemView.findViewById(R.id.date_show_text);
     }
 
     public void bind(Task task){
-
-        mFirstText.setText(task.getTitle().charAt(0));
+        System.out.println(Arrays.toString(task.getTitle().toCharArray()) +"man kooniam");
+        String firstCharacterOfTitle = String.valueOf(task.getTitle().charAt(0));
+        mFirstText.setText(firstCharacterOfTitle);
         mTitleText.setText(task.getTitle());
         mDateText.setText(task.getDate().toString());
     }
