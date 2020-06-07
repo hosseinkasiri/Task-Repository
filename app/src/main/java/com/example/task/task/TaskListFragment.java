@@ -18,14 +18,13 @@ import com.example.task.model.Task;
 import com.example.task.model.TaskLab;
 import com.example.task.model.TaskListMode;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AllFragment extends Fragment {
+public class TaskListFragment extends Fragment {
 
     private ImageButton mAddButton;
     private ImageView mImageView;
@@ -34,12 +33,10 @@ public class AllFragment extends Fragment {
     private List<Task> mTasks ;
     private static final String ARGS_TASK_MODE = " package com.example.task.task_task mode";
 
-
-    public static AllFragment newInstance(TaskListMode listMode) {
-        
+    public static TaskListFragment newInstance(TaskListMode listMode) {
         Bundle args = new Bundle();
         args.putSerializable(ARGS_TASK_MODE , listMode);
-        AllFragment fragment = new AllFragment();
+        TaskListFragment fragment = new TaskListFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -48,7 +45,7 @@ public class AllFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_all, container, false);
+        View view = inflater.inflate(R.layout.fragment_task_list, container, false);
 
         findViews(view);
         mAddButton.setOnClickListener(new View.OnClickListener() {
@@ -59,8 +56,6 @@ public class AllFragment extends Fragment {
                 startActivityForResult(intent , 0);
             }
         });
-
-
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         TaskListMode listMode = (TaskListMode) getArguments().getSerializable(ARGS_TASK_MODE);
         mTasks =  TaskLab.getInstance().getTasks(listMode);
@@ -74,6 +69,8 @@ public class AllFragment extends Fragment {
     public void onResume() {
         super.onResume();
        mAdapter.notifyDataSetChanged();
+
+
     }
 
     private void findViews(View view) {

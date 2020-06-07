@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".task.AllFragment">
+    tools:context=".task.TaskListFragment">
 
     <ImageView
         android:id="@+id/imageView"
@@ -15,10 +15,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:id="@+id/recycler_view">
-
-
     </androidx.recyclerview.widget.RecyclerView>
 
     <ImageButton

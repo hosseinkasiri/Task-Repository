@@ -32,7 +32,6 @@ public class AddFragment extends Fragment {
     private Task mTask;
     private Button mCancelButton;
     private Button mDoneButton;
-    private CheckBox mDoneCheckBox;
     private EditText mTitleText;
     private Toaster mToaster = new Toaster();
 
@@ -41,9 +40,8 @@ public class AddFragment extends Fragment {
     }
 
     public static AddFragment newInstance() {
-        
+
         Bundle args = new Bundle();
-        
         AddFragment fragment = new AddFragment();
         fragment.setArguments(args);
         return fragment;
@@ -53,22 +51,11 @@ public class AddFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_add, container, false);
-
         findViews(view);
-
         mTask = new Task();
         mDateText.setText(mTask.getDate().toString());
         //mTimeText.setText(String.valueOf(mTask.getDate().getTime()));
-
-
-        mDoneCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mTask.setDone(isChecked);
-            }
-        });
 
         mDoneButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,21 +79,17 @@ public class AddFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                Intent intent = MainActivity.newIntent(getActivity());
-                startActivity(intent);
+                getActivity().finish();
             }
         });
         return view;
     }
-
     private void findViews(View view) {
         mDescriptionText = view.findViewById(R.id.description_edit_id);
         mDateText = view.findViewById(R.id.date_id);
         mTimeText = view.findViewById(R.id.time_text_id);
         mCancelButton = view.findViewById(R.id.cancel_button);
         mDoneButton = view.findViewById(R.id.done_button);
-        mDoneCheckBox = view.findViewById(R.id.done_checkBox);
         mTitleText = view.findViewById(R.id.title_edit_id);
-
     }
 }

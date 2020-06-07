@@ -53,8 +53,5 @@ public class TaskLab {
         mDoneTasks.clear();
         mDoneTasks.addAll(mTasks);
         mDoneTasks.removeIf(T -> !T.isDone());
-
-
     }
-
 }

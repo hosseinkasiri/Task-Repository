@@ -40,9 +40,9 @@ public class MainActivity extends AppCompatActivity {
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        adapter.addFragment(AllFragment.newInstance(mAll) , "All" );
-        adapter.addFragment(AllFragment.newInstance(mDone) , "Done");
-        adapter.addFragment(AllFragment.newInstance(mUnDone) , "UnDone");
+        adapter.addFragment(TaskListFragment.newInstance(mAll) , "All" );
+        adapter.addFragment(TaskListFragment.newInstance(mDone) , "Done");
+        adapter.addFragment(TaskListFragment.newInstance(mUnDone) , "UnDone");
 
         mViewPager.setAdapter(adapter);
         mTabLayout.setupWithViewPager(mViewPager);
