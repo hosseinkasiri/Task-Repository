@@ -6,15 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".task.AllFragment">
 
-    <ImageButton
-        android:id="@+id/add_button"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:src="@drawable/ic_action_positive"
-        android:background="@drawable/circle_button"
-        android:layout_gravity="bottom|right"
-        android:layout_margin="10dp"/>
-
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
@@ -29,6 +20,16 @@
 
 
     </androidx.recyclerview.widget.RecyclerView>
+
+    <ImageButton
+        android:id="@+id/add_button"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/ic_action_positive"
+        android:background="@drawable/circle_button"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="10dp"/>
+
 
 
 </FrameLayout>

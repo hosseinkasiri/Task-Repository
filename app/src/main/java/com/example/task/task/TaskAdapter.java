@@ -59,7 +59,6 @@ class TaskHolder extends RecyclerView.ViewHolder{
     }
 
     public void bind(Task task){
-        System.out.println(Arrays.toString(task.getTitle().toCharArray()) +"man kooniam");
         String firstCharacterOfTitle = String.valueOf(task.getTitle().charAt(0));
         mFirstText.setText(firstCharacterOfTitle);
         mTitleText.setText(task.getTitle());

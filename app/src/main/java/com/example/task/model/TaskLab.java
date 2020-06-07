@@ -8,16 +8,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TaskLab {
-
-    private List<Task> mTasks;
     private static  TaskLab mInstance ;
+    private List<Task> mTasks;
+    private List<Task> mDoneTasks;
+    private List<Task> mUnDoneTasks;
 
     private TaskLab() {
         mTasks = new ArrayList<>();
+        mDoneTasks = new ArrayList<>();
+        mUnDoneTasks  = new ArrayList<>();
     }
 
     public static TaskLab getInstance() {
-
         if (mInstance == null){
             mInstance = new TaskLab();
             return mInstance;
@@ -26,25 +28,33 @@ public class TaskLab {
     }
 
     public void addTask(Task task){
-
         mTasks.add(task);
+        updateTaskLists();
+
     }
 
     public List<Task> getTasks(TaskListMode taskListMode) {
-
-        List<Task> tasks = new ArrayList<>(mTasks);
         switch (taskListMode){
             case all:
-                break;
-
+                return mTasks;
             case done:
-                tasks.removeIf(task -> !task.isDone());
-                break;
-
+               return  mDoneTasks;
             case unDone:
-                tasks.removeIf(Task::isDone);
-                break;
+                return  mUnDoneTasks;
+
         }
-        return tasks;
+    return mTasks;
     }
+
+    private void updateTaskLists(){
+        mUnDoneTasks.clear();
+        mUnDoneTasks.addAll(mTasks);
+        mUnDoneTasks.removeIf(T -> T.isDone());
+        mDoneTasks.clear();
+        mDoneTasks.addAll(mTasks);
+        mDoneTasks.removeIf(T -> !T.isDone());
+
+
+    }
+
 }

@@ -30,6 +30,7 @@ public class AllFragment extends Fragment {
     private ImageButton mAddButton;
     private ImageView mImageView;
     private RecyclerView mRecyclerView;
+    private TaskAdapter mAdapter;
     private List<Task> mTasks ;
     private static final String ARGS_TASK_MODE = " package com.example.task.task_task mode";
 
@@ -58,18 +59,32 @@ public class AllFragment extends Fragment {
                 startActivityForResult(intent , 0);
             }
         });
+
+
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         TaskListMode listMode = (TaskListMode) getArguments().getSerializable(ARGS_TASK_MODE);
         mTasks =  TaskLab.getInstance().getTasks(listMode);
-        TaskAdapter adapter = new TaskAdapter(getActivity() , mTasks);
-        mRecyclerView.setAdapter(adapter);
+         mAdapter = new TaskAdapter(getActivity() , mTasks);
+        mRecyclerView.setAdapter(mAdapter);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+       mAdapter.notifyDataSetChanged();
     }
 
     private void findViews(View view) {
         mImageView = view.findViewById(R.id.imageView);
         mAddButton = view.findViewById(R.id.add_button);
         mRecyclerView = view.findViewById(R.id.recycler_view);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
     }
 }
