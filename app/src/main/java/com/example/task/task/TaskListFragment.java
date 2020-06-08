@@ -17,6 +17,7 @@ import com.example.task.R;
 import com.example.task.model.Task;
 import com.example.task.model.TaskLab;
 import com.example.task.model.TaskListMode;
+import com.example.task.model.Toaster;
 
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class TaskListFragment extends Fragment {
     private ImageView mImageView;
     private RecyclerView mRecyclerView;
     private TaskAdapter mAdapter;
-    private List<Task> mTasks ;
+    private List<Task> mTasks;
     private static final String ARGS_TASK_MODE = " package com.example.task.task_task mode";
 
     public static TaskListFragment newInstance(TaskListMode listMode) {
@@ -51,7 +52,6 @@ public class TaskListFragment extends Fragment {
         mAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = AddActivity.newIntent(getActivity());
                 startActivityForResult(intent , 0);
             }
@@ -61,7 +61,6 @@ public class TaskListFragment extends Fragment {
         mTasks =  TaskLab.getInstance().getTasks(listMode);
          mAdapter = new TaskAdapter(getActivity() , mTasks);
         mRecyclerView.setAdapter(mAdapter);
-
         return view;
     }
 
@@ -69,19 +68,17 @@ public class TaskListFragment extends Fragment {
     public void onResume() {
         super.onResume();
        mAdapter.notifyDataSetChanged();
-
-
+       if (mTasks.size() != 0){
+           mImageView.setVisibility(View.GONE);
+       }
+       else {
+           mImageView.setVisibility(View.VISIBLE);
+       }
     }
 
     private void findViews(View view) {
         mImageView = view.findViewById(R.id.imageView);
         mAddButton = view.findViewById(R.id.add_button);
         mRecyclerView = view.findViewById(R.id.recycler_view);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
     }
 }

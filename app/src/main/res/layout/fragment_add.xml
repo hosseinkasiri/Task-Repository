@@ -15,16 +15,18 @@
             android:id="@+id/cancel_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/buttonColorAdd"
+            android:background="@null"
             android:layout_gravity="left"
+            android:drawableLeft="@drawable/icon_cancel"
             android:text="Cancel"/>
 
         <Button
             android:id="@+id/done_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/buttonColorAdd"
+            android:background="@null"
             android:layout_gravity="right"
+            android:drawableLeft="@drawable/icon_done"
             android:text="Done"/>
     </FrameLayout>
 

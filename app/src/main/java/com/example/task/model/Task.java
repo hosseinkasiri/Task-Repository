@@ -11,12 +11,10 @@ public class Task {
 
     private Date mDate;
 
-    private boolean mDone;
+    private boolean mDone = true;
 
     public Task() {
-
         mDate = new Date();
-
     }
 
     public String getDescription() {
