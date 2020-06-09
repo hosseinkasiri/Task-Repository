@@ -27,25 +27,26 @@ public class DescriptionFragment extends Fragment {
     public DescriptionFragment() {
     }
 
-    public static DescriptionFragment newInstance() {
-
+    public static DescriptionFragment newInstance(UUID id) {
         Bundle args = new Bundle();
-
+        args.putSerializable(mTASK_ID , id);
         DescriptionFragment fragment = new DescriptionFragment();
         fragment.setArguments(args);
         return fragment;
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_description, container, false);
         findViews(view);
-       /* mTask = TaskLab.getInstance().getTask((UUID) getArguments().getSerializable(mTASK_ID));
+
+        UUID taskId = (UUID) getArguments().getSerializable(mTASK_ID);
+        mTask = TaskLab.getInstance().getTask(taskId);
         mDescription.setText(mTask.getDescription());
         mDate.setText(mTask.getDate().toString());
-        mDoneCheckBox.setChecked(mTask.isDone());*/
+        mDoneCheckBox.setChecked(mTask.isDone());
+
 
 
         return view;

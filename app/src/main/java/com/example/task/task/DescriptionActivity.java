@@ -10,15 +10,16 @@ import java.util.UUID;
 public class DescriptionActivity extends SingleFragmentActivity {
 
     private static final String mTASK_ID = "TASK ID";
-    public static Intent newIntent(Context context ){
+    public static Intent newIntent(Context context , UUID id){
         Intent intent = new Intent(context , DescriptionActivity.class);
-        //intent.putExtra(mTASK_ID,TaskId);
+        intent.putExtra(mTASK_ID,id);
         return intent;
     }
 
-   // UUID taskId = (UUID) getIntent().getSerializableExtra(mTASK_ID);
+
     @Override
     public Fragment mFragment() {
-        return DescriptionFragment.newInstance();
+        UUID taskId = (UUID) getIntent().getSerializableExtra(mTASK_ID);
+        return DescriptionFragment.newInstance(taskId);
     }
 }

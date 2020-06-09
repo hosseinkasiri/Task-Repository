@@ -32,6 +32,7 @@ public class TaskListFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private TaskAdapter mAdapter;
     private List<Task> mTasks;
+    private TaskListMode mListMode;
     private static final String ARGS_TASK_MODE = " package com.example.task.task_task mode";
 
     public static TaskListFragment newInstance(TaskListMode listMode) {
@@ -56,19 +57,20 @@ public class TaskListFragment extends Fragment {
             }
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mListMode = (TaskListMode) getArguments().getSerializable(ARGS_TASK_MODE);
         updateUi();
         return view;
     }
 
     private void updateUi() {
-        TaskListMode listMode = (TaskListMode) getArguments().getSerializable(ARGS_TASK_MODE);
-        mTasks =  TaskLab.getInstance().getTasks(listMode);
-        if (mAdapter == null) {
-            mAdapter = new TaskAdapter(getActivity(), mTasks);
-            mRecyclerView.setAdapter(mAdapter);
+        mTasks =  TaskLab.getInstance().getTasks(mListMode);
+        mAdapter = new TaskAdapter(getActivity(), mTasks);
+        mRecyclerView.setAdapter(mAdapter);
+        if (mTasks.size() != 0){
+            mImageView.setVisibility(View.GONE);
         }
         else {
-            mAdapter.notifyDataSetChanged();
+            mImageView.setVisibility(View.VISIBLE);
         }
     }
 
@@ -76,12 +78,6 @@ public class TaskListFragment extends Fragment {
     public void onResume() {
         super.onResume();
         updateUi();
-       if (mTasks.size() != 0){
-           mImageView.setVisibility(View.GONE);
-       }
-       else {
-           mImageView.setVisibility(View.VISIBLE);
-       }
     }
 
     private void findViews(View view) {

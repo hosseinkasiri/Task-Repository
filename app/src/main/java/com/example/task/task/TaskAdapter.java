@@ -47,7 +47,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskHolder> {
 class TaskHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     private TextView mFirstText , mTitleText , mDateText;
     private Context mContext;
-
+    private Task mTask;
 
     public TaskHolder(@NonNull View itemView , Context context) {
         super(itemView);
@@ -59,6 +59,7 @@ class TaskHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     }
 
     public void bind(Task task){
+        mTask = task;
         String firstCharacterOfTitle = String.valueOf(task.getTitle().charAt(0));
         mFirstText.setText(firstCharacterOfTitle);
         mTitleText.setText(task.getTitle());
@@ -67,7 +68,7 @@ class TaskHolder extends RecyclerView.ViewHolder implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        Intent intent = DescriptionActivity.newIntent(v.getContext());
+        Intent intent = DescriptionActivity.newIntent(v.getContext() , mTask.getId());
         mContext.startActivity(intent);
     }
 }

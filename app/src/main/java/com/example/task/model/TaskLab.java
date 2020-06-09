@@ -13,10 +13,10 @@ import java.util.UUID;
 
 public class TaskLab {
     private static TaskLab mInstance;
-    private LinkedHashMap<UUID, Task> mTasks;
+    private LinkedHashMap<UUID , Task> mTasks;
 
     private TaskLab() {
-        mTasks = new LinkedHashMap<UUID, Task>();
+        mTasks = new LinkedHashMap<>();
     }
 
     public static TaskLab getInstance() {
@@ -28,14 +28,14 @@ public class TaskLab {
     }
 
     public void addTask(Task task) {
-        mTasks.put(task.getId(), task);
+        mTasks.put(task.getId(),task);
     }
 
     public List<Task> getTasks(TaskListMode taskListMode) {
-        ArrayList<Task> list = new ArrayList<>(mTasks.values());
+        List<Task> list = new ArrayList<>(mTasks.values());
         switch (taskListMode) {
             case all:
-                return list;
+                break;
             case done:
                 list.removeIf(T -> !T.isDone());
                 break;
@@ -44,5 +44,9 @@ public class TaskLab {
                 break;
         }
         return list;
+    }
+
+    public Task getTask(UUID id){
+        return mTasks.get(id);
     }
 }
