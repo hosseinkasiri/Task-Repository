@@ -49,4 +49,8 @@ public class TaskLab {
     public Task getTask(UUID id){
         return mTasks.get(id);
     }
+
+    public void removeTask(UUID id){
+        mTasks.remove(id);
+    }
 }
