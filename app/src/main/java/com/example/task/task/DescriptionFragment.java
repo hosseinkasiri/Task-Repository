@@ -1,4 +1,4 @@
-package com.example.task;
+package com.example.task.task;
 
 import android.os.Bundle;
 
@@ -11,20 +11,20 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import com.example.task.R;
+import com.example.task.model.Task;
+import com.example.task.model.TaskLab;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+import java.util.UUID;
 public class DescriptionFragment extends Fragment {
 
+    private static final String mTASK_ID = "TASK ID";
     private EditText mDescription,mDate,mTime;
     private Button mEditButton,mDeleteButton,mDoneButton;
     private CheckBox mDoneCheckBox;
-
-
+    private Task mTask;
 
     public DescriptionFragment() {
-        // Required empty public constructor
     }
 
     public static DescriptionFragment newInstance() {
@@ -39,13 +39,18 @@ public class DescriptionFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.fragment_description, container, false);
         findViews(view);
+       /* mTask = TaskLab.getInstance().getTask((UUID) getArguments().getSerializable(mTASK_ID));
+        mDescription.setText(mTask.getDescription());
+        mDate.setText(mTask.getDate().toString());
+        mDoneCheckBox.setChecked(mTask.isDone());*/
+
+
         return view;
     }
     private void findViews(View view){
-
         mDescription = view.findViewById(R.id.description_id);
         mDate = view.findViewById(R.id.date_description_id);
         mTime = view.findViewById(R.id.time_description_id);

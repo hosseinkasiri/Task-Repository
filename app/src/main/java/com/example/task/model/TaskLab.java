@@ -5,53 +5,44 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class TaskLab {
-    private static  TaskLab mInstance ;
-    private List<Task> mTasks;
-    private List<Task> mDoneTasks;
-    private List<Task> mUnDoneTasks;
+    private static TaskLab mInstance;
+    private LinkedHashMap<UUID, Task> mTasks;
 
     private TaskLab() {
-        mTasks = new ArrayList<>();
-        mDoneTasks = new ArrayList<>();
-        mUnDoneTasks  = new ArrayList<>();
+        mTasks = new LinkedHashMap<UUID, Task>();
     }
 
     public static TaskLab getInstance() {
-        if (mInstance == null){
+        if (mInstance == null) {
             mInstance = new TaskLab();
             return mInstance;
         }
         return mInstance;
     }
 
-    public void addTask(Task task){
-        mTasks.add(task);
-        updateTaskLists();
-
+    public void addTask(Task task) {
+        mTasks.put(task.getId(), task);
     }
 
     public List<Task> getTasks(TaskListMode taskListMode) {
-        switch (taskListMode){
+        ArrayList<Task> list = new ArrayList<>(mTasks.values());
+        switch (taskListMode) {
             case all:
-                return mTasks;
+                return list;
             case done:
-               return  mDoneTasks;
+                list.removeIf(T -> !T.isDone());
+                break;
             case unDone:
-                return  mUnDoneTasks;
-
+                list.removeIf(Task::isDone);
+                break;
         }
-    return mTasks;
-    }
-
-    private void updateTaskLists(){
-        mUnDoneTasks.clear();
-        mUnDoneTasks.addAll(mTasks);
-        mUnDoneTasks.removeIf(T -> T.isDone());
-        mDoneTasks.clear();
-        mDoneTasks.addAll(mTasks);
-        mDoneTasks.removeIf(T -> !T.isDone());
+        return list;
     }
 }

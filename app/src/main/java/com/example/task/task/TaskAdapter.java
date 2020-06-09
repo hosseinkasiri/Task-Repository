@@ -10,12 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.task.DescriptionActivity;
 import com.example.task.R;
 import com.example.task.model.Task;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
 import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskHolder> {
@@ -26,7 +23,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskHolder> {
         mTasks = tasks;
         mContext = context;
     }
-
     @NonNull
     @Override
     public TaskHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -51,6 +47,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskHolder> {
 class TaskHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     private TextView mFirstText , mTitleText , mDateText;
     private Context mContext;
+
 
     public TaskHolder(@NonNull View itemView , Context context) {
         super(itemView);

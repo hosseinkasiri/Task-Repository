@@ -2,19 +2,19 @@ package com.example.task.model;
 
 import java.util.Date;
 import java.util.Timer;
+import java.util.UUID;
 
 public class Task {
 
     private String mTitle;
-
     private String mDescription;
-
     private Date mDate;
-
     private boolean mDone = true;
+    private UUID mId;
 
     public Task() {
         mDate = new Date();
+        mId = UUID.randomUUID();
     }
 
     public String getDescription() {
@@ -47,5 +47,9 @@ public class Task {
 
     public void setTitle(String title) {
         mTitle = title;
+    }
+
+    public UUID getId() {
+        return mId;
     }
 }

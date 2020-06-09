@@ -41,7 +41,6 @@ public class TaskListFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -57,17 +56,26 @@ public class TaskListFragment extends Fragment {
             }
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        updateUi();
+        return view;
+    }
+
+    private void updateUi() {
         TaskListMode listMode = (TaskListMode) getArguments().getSerializable(ARGS_TASK_MODE);
         mTasks =  TaskLab.getInstance().getTasks(listMode);
-         mAdapter = new TaskAdapter(getActivity() , mTasks);
-        mRecyclerView.setAdapter(mAdapter);
-        return view;
+        if (mAdapter == null) {
+            mAdapter = new TaskAdapter(getActivity(), mTasks);
+            mRecyclerView.setAdapter(mAdapter);
+        }
+        else {
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-       mAdapter.notifyDataSetChanged();
+        updateUi();
        if (mTasks.size() != 0){
            mImageView.setVisibility(View.GONE);
        }

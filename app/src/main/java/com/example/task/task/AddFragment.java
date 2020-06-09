@@ -20,10 +20,7 @@ import com.example.task.model.Task;
 import com.example.task.model.TaskLab;
 import com.example.task.model.Toaster;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
+import java.util.Objects;
 public class AddFragment extends Fragment {
 
     private EditText mDescriptionText;
@@ -70,7 +67,7 @@ public class AddFragment extends Fragment {
                     task.setDescription(mDescriptionText.getText().toString());
                     task.setTitle(mTitleText.getText().toString());
                     TaskLab.getInstance().addTask(task);
-                   getActivity().finish();
+                    getActivity().finish();
                 }
             }
         });
@@ -78,7 +75,6 @@ public class AddFragment extends Fragment {
         mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 getActivity().finish();
             }
         });
