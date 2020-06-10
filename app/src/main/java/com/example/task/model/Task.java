@@ -9,7 +9,7 @@ public class Task {
     private String mTitle;
     private String mDescription;
     private Date mDate;
-    private boolean mDone = true;
+    private boolean mDone;
     private UUID mId;
 
     public Task() {

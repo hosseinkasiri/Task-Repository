@@ -51,21 +51,26 @@ public class DescriptionFragment extends Fragment {
         mDoneCheckBox.setChecked(mTask.isDone());
         enable(false);
 
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         mEditButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mDescription.setEnabled(true);
                 mDoneCheckBox.setEnabled(true);
                 mTask.setDescription(mDescription.getText().toString());
-                mDoneCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        mTask.setDone(isChecked);
-                    }
-                });
             }
         });
-
+        mDoneCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mTask.setDone(isChecked);
+            }
+        });
         mDoneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,7 +78,6 @@ public class DescriptionFragment extends Fragment {
                 getActivity().finish();
             }
         });
-
         mDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,9 +85,6 @@ public class DescriptionFragment extends Fragment {
                 getActivity().finish();
             }
         });
-
-
-
         return view;
     }
     private void findViews(View view){

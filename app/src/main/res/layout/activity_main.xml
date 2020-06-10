@@ -24,6 +24,7 @@
             android:layout_marginLeft="20dp"
             android:layout_gravity="left|center"
             android:textSize="25dp"
+            android:textColor="#FFFFFF"
             android:text="Task"/>
 
             <ImageView
