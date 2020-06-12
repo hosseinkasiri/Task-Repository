@@ -1,6 +1,4 @@
-package com.example.task.task;
-
-import android.widget.LinearLayout;
+package com.example.task.controller;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

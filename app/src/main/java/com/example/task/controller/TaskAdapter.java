@@ -1,4 +1,4 @@
-package com.example.task.task;
+package com.example.task.controller;
 
 import android.content.Context;
 import android.content.Intent;
@@ -68,7 +68,7 @@ class TaskHolder extends RecyclerView.ViewHolder implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        Intent intent = DescriptionActivity.newIntent(v.getContext() , mTask.getId());
+        Intent intent = DescriptionActivity.newIntent(v.getContext() , mTask);
         mContext.startActivity(intent);
     }
 }

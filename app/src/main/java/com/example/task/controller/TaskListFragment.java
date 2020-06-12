@@ -1,4 +1,4 @@
-package com.example.task.task;
+package com.example.task.controller;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +17,6 @@ import com.example.task.R;
 import com.example.task.model.Task;
 import com.example.task.model.TaskLab;
 import com.example.task.model.TaskListMode;
-import com.example.task.model.Toaster;
 
 import java.util.List;
 

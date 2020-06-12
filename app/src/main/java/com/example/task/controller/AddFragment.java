@@ -1,26 +1,22 @@
-package com.example.task.task;
+package com.example.task.controller;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.task.R;
 import com.example.task.model.Task;
 import com.example.task.model.TaskLab;
-import com.example.task.model.Toaster;
+import com.example.task.helper.Toaster;
 
-import java.util.Objects;
 public class AddFragment extends Fragment {
 
     private EditText mDescriptionText;
@@ -30,6 +26,7 @@ public class AddFragment extends Fragment {
     private Button mCancelButton;
     private Button mDoneButton;
     private EditText mTitleText;
+    private TextView mTitleTextView;
     private Toaster mToaster = new Toaster();
 
     public AddFragment() {
@@ -50,10 +47,9 @@ public class AddFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add, container, false);
         findViews(view);
+        setTtileText();
         mTask = new Task();
         mDateText.setText(mTask.getDate().toString());
-        //mTimeText.setText(String.valueOf(mTask.getDate().getTime()));
-
         mDoneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,8 +74,13 @@ public class AddFragment extends Fragment {
                 getActivity().finish();
             }
         });
+
+
         return view;
     }
+
+
+
     private void findViews(View view) {
         mDescriptionText = view.findViewById(R.id.description_edit_id);
         mDateText = view.findViewById(R.id.date_id);
@@ -87,5 +88,11 @@ public class AddFragment extends Fragment {
         mCancelButton = view.findViewById(R.id.cancel_button);
         mDoneButton = view.findViewById(R.id.done_button);
         mTitleText = view.findViewById(R.id.title_edit_id);
+        mTitleTextView = view.findViewById(R.id.title_text_view);
+    }
+
+    private void setTtileText() {
+        String text = "Title</font> <font color=#FF0000> *</font>";
+        mTitleTextView.setText(Html.fromHtml(text,0));
     }
 }

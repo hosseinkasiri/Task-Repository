@@ -34,13 +34,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Title"
+        android:id="@+id/title_text_view"
         android:layout_marginTop="40dp"/>
 
     <EditText
         android:id="@+id/title_edit_id"
         android:layout_width="match_parent"
-        android:hint="*"
-        android:textColorHint="@color/positiveButtonColor"
         android:layout_height="wrap_content"/>
 
 

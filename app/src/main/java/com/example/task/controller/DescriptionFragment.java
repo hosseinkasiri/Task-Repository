@@ -1,10 +1,9 @@
-package com.example.task.task;
+package com.example.task.controller;
 
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,14 +11,11 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.TableRow;
 
 import com.example.task.R;
 import com.example.task.model.Task;
 import com.example.task.model.TaskLab;
 
-import java.io.Serializable;
-import java.util.UUID;
 public class DescriptionFragment extends Fragment {
 
     private static final String mTASK_ID = "TASK ID";
@@ -31,9 +27,9 @@ public class DescriptionFragment extends Fragment {
     public DescriptionFragment() {
     }
 
-    public static DescriptionFragment newInstance(UUID id) {
+    public static DescriptionFragment newInstance(Task task) {
         Bundle args = new Bundle();
-        args.putSerializable(mTASK_ID , id);
+        args.putSerializable(mTASK_ID , task);
         DescriptionFragment fragment = new DescriptionFragment();
         fragment.setArguments(args);
         return fragment;
@@ -44,19 +40,13 @@ public class DescriptionFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_description, container, false);
         findViews(view);
-        UUID taskId = (UUID) getArguments().getSerializable(mTASK_ID);
-        mTask = TaskLab.getInstance().getTask(taskId);
+        mTask = (Task) getArguments().getSerializable(mTASK_ID);
         mDescription.setText(mTask.getDescription());
         mDate.setText(mTask.getDate().toString());
         mDoneCheckBox.setChecked(mTask.isDone());
         enable(false);
 
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
         mEditButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,7 +71,7 @@ public class DescriptionFragment extends Fragment {
         mDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TaskLab.getInstance().removeTask(taskId);
+                TaskLab.getInstance().removeTask(mTask.getId());
                 getActivity().finish();
             }
         });

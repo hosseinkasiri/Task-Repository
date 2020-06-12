@@ -1,4 +1,4 @@
-package com.example.task.task;
+package com.example.task.controller;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
