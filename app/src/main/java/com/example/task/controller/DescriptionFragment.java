@@ -46,25 +46,25 @@ public class DescriptionFragment extends Fragment {
         mDoneCheckBox.setChecked(mTask.isDone());
         enable(false);
 
-
         mEditButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mDescription.setEnabled(true);
                 mDoneCheckBox.setEnabled(true);
-                mTask.setDescription(mDescription.getText().toString());
+                //mTask.setDescription(mDescription.getText().toString());
             }
         });
         mDoneCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                mTask.setDone(isChecked);
+                TaskLab.getInstance().getTask(mTask.getId()).setDone(isChecked);
+               // mTask.setDone(isChecked);
             }
         });
         mDoneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mTask.setDescription(mDescription.getText().toString());
+                TaskLab.getInstance().getTask(mTask.getId()).setDescription(mDescription.getText().toString());
                 getActivity().finish();
             }
         });

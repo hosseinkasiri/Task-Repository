@@ -28,7 +28,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskHolder> {
     public TaskHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View view = inflater.inflate(R.layout.item_recycler , parent , false);
-        TaskHolder taskHolder = new TaskHolder(view , mContext);
+        TaskHolder taskHolder = new TaskHolder(view);
         return taskHolder;
     }
 
@@ -46,16 +46,14 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskHolder> {
 
 class TaskHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     private TextView mFirstText , mTitleText , mDateText;
-    private Context mContext;
     private Task mTask;
 
-    public TaskHolder(@NonNull View itemView , Context context) {
+    public TaskHolder(@NonNull View itemView) {
         super(itemView);
         itemView.setOnClickListener(this);
         mFirstText = itemView.findViewById(R.id.first_text_show);
         mTitleText = itemView.findViewById(R.id.title_show_text);
         mDateText = itemView.findViewById(R.id.date_show_text);
-        mContext = context;
     }
 
     public void bind(Task task){
@@ -69,6 +67,6 @@ class TaskHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     @Override
     public void onClick(View v) {
         Intent intent = DescriptionActivity.newIntent(v.getContext() , mTask);
-        mContext.startActivity(intent);
+        v.getContext().startActivity(intent);
     }
 }

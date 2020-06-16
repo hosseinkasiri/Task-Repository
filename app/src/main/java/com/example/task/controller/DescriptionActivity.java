@@ -16,7 +16,6 @@ public class DescriptionActivity extends SingleFragmentActivity {
         return intent;
     }
 
-
     @Override
     public Fragment mFragment() {
         Task task = (Task) getIntent().getSerializableExtra(mTASK_ID);
