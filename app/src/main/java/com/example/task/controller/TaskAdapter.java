@@ -1,13 +1,14 @@
 package com.example.task.controller;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.task.R;
@@ -28,8 +29,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskHolder> {
     public TaskHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View view = inflater.inflate(R.layout.item_recycler , parent , false);
-        TaskHolder taskHolder = new TaskHolder(view);
-        return taskHolder;
+        return new TaskHolder(view);
     }
 
     @Override
@@ -47,8 +47,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskHolder> {
 class TaskHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     private TextView mFirstText , mTitleText , mDateText;
     private Task mTask;
+    private static final String DESCRIPTION_TAG = "description tag";
 
-    public TaskHolder(@NonNull View itemView) {
+    public TaskHolder(View itemView) {
         super(itemView);
         itemView.setOnClickListener(this);
         mFirstText = itemView.findViewById(R.id.first_text_show);
@@ -63,10 +64,9 @@ class TaskHolder extends RecyclerView.ViewHolder implements View.OnClickListener
         mTitleText.setText(task.getTitle());
         mDateText.setText(task.getDate().toString());
     }
-
     @Override
     public void onClick(View v) {
-        Intent intent = DescriptionActivity.newIntent(v.getContext() , mTask);
-        v.getContext().startActivity(intent);
+        DialogDescriptionFragment descriptionFragment = DialogDescriptionFragment.newInstance(mTask);
+        descriptionFragment.show(((AppCompatActivity)v.getContext()).getSupportFragmentManager(),DESCRIPTION_TAG);
     }
 }
