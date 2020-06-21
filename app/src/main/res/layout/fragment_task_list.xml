@@ -19,14 +19,30 @@
         android:id="@+id/recycler_view">
     </androidx.recyclerview.widget.RecyclerView>
 
-    <ImageButton
-        android:id="@+id/add_button"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:src="@drawable/ic_action_positive"
-        android:background="@drawable/circle_button"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
-        android:layout_margin="10dp"/>
+        android:orientation="vertical">
+        <ImageButton
+            android:id="@+id/add_button"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_action_positive"
+            android:background="@drawable/circle_button"
+            android:layout_margin="10dp" />
+
+        <ImageButton
+            android:id="@+id/delete_tasks_button"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/circle_button"
+            android:src="@drawable/icon_negative"
+            android:layout_margin="10dp"/>
+
+
+    </LinearLayout>
+
 
 
 

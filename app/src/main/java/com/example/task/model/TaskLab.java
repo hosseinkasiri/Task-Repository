@@ -4,6 +4,8 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import com.example.task.controller.TaskListFragment;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -52,5 +54,9 @@ public class TaskLab {
 
     public void removeTask(UUID id){
         mTasks.remove(id);
+    }
+
+    public void clearTasks(){
+        mTasks.clear();
     }
 }

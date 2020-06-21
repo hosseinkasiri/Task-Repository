@@ -47,7 +47,7 @@ public class AddFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add, container, false);
         findViews(view);
-        setTtileText();
+        setTitleText();
         mTask = new Task();
         mDateText.setText(mTask.getDate().toString());
         mDoneButton.setOnClickListener(new View.OnClickListener() {
@@ -74,8 +74,6 @@ public class AddFragment extends Fragment {
                 getActivity().finish();
             }
         });
-
-
         return view;
     }
 
@@ -91,7 +89,7 @@ public class AddFragment extends Fragment {
         mTitleTextView = view.findViewById(R.id.title_text_view);
     }
 
-    private void setTtileText() {
+    private void setTitleText() {
         String text = "Title</font> <font color=#FF0000> *</font>";
         mTitleTextView.setText(Html.fromHtml(text,0));
     }

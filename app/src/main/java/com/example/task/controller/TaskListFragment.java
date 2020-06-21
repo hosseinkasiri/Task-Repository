@@ -1,9 +1,11 @@
 package com.example.task.controller;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,20 +21,22 @@ import com.example.task.model.TaskLab;
 import com.example.task.model.TaskListMode;
 
 import java.util.List;
-
-
 /**
  * A simple {@link Fragment} subclass.
  */
 public class TaskListFragment extends Fragment {
 
-    private ImageButton mAddButton;
+    private ImageButton mAddButton,mDeleteButton;
     private ImageView mImageView;
     private RecyclerView mRecyclerView;
     private TaskAdapter mAdapter;
     private List<Task> mTasks;
     private TaskListMode mListMode;
+    private static final String TRASH_TAG = "com.example.task.controller_trash";
     private static final String ARGS_TASK_MODE = " package com.example.task.task_task mode";
+
+    public TaskListFragment() {
+    }
 
     public static TaskListFragment newInstance(TaskListMode listMode) {
         Bundle args = new Bundle();
@@ -55,13 +59,26 @@ public class TaskListFragment extends Fragment {
                 startActivityForResult(intent , 0);
             }
         });
+
+        mDeleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TrashDialogFragment trashDialogFragment = TrashDialogFragment.newInstance(new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        TaskLab.getInstance().clearTasks();
+                        updateUi();
+                    }
+                });
+                trashDialogFragment.show(getFragmentManager(),TRASH_TAG);
+            }
+        });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mListMode = (TaskListMode) getArguments().getSerializable(ARGS_TASK_MODE);
-        updateUi();
         return view;
     }
 
-    private void updateUi() {
+    public void updateUi() {
         mTasks =  TaskLab.getInstance().getTasks(mListMode);
         mAdapter = new TaskAdapter(getActivity(), mTasks);
         mRecyclerView.setAdapter(mAdapter);
@@ -83,5 +100,6 @@ public class TaskListFragment extends Fragment {
         mImageView = view.findViewById(R.id.imageView);
         mAddButton = view.findViewById(R.id.add_button);
         mRecyclerView = view.findViewById(R.id.recycler_view);
+        mDeleteButton = view.findViewById(R.id.delete_tasks_button);
     }
 }
