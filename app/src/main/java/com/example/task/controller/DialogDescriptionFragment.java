@@ -43,7 +43,13 @@ public class DialogDescriptionFragment extends DialogFragment {
         mTask = (Task) getArguments().getSerializable(ARG_TASK);
         mTitle.setText(mTask.getTitle());
         mDescription.setText(mTask.getDescription());
-        mDate.setText(mTask.getDate().toString());
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(mTask.getDate());
+        Date date = calendar.getTime();
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+        DateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd");
+        mTime.setText(dateFormat.format(date));
+        mDate.setText(dateFormat1.format(date));
         return new AlertDialog.Builder(getActivity())
                 .setPositiveButton(android.R.string.ok,null)
                 .setView(view)

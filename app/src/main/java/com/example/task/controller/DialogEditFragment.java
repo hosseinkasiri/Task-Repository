@@ -23,7 +23,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-
 public class DialogEditFragment extends DialogFragment {
 
     private static final String ARG_TASK = "com.example.task_task";
@@ -63,7 +62,12 @@ public class DialogEditFragment extends DialogFragment {
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        TaskLab.getInstance().getTask(mTask.getId()).setDescription(mDescriptionText.getText().toString());
+                        int year = mDatePicker.getYear();
+                        int month = mDatePicker.getMonth();
+                        int day = mDatePicker.getDayOfMonth();
+                        Date date = new GregorianCalendar(year,month,day).getTime();
+                        TaskLab.getInstance().getTask(mTask.getId()).setDate(date);
                     }
                 })
                 .setNegativeButton(android.R.string.cancel,null)
