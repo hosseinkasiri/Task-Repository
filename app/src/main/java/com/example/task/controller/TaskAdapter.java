@@ -4,11 +4,11 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.task.R;
@@ -47,7 +47,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskHolder> {
 class TaskHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     private TextView mFirstText , mTitleText , mDateText;
     private Task mTask;
-    private static final String DESCRIPTION_TAG = "description tag";
+    private ImageView mImageEdit;
+    private static final String DESCRIPTION_TAG = "description tag",EDIT_TAG = "edit tag";
 
     public TaskHolder(View itemView) {
         super(itemView);
@@ -55,6 +56,14 @@ class TaskHolder extends RecyclerView.ViewHolder implements View.OnClickListener
         mFirstText = itemView.findViewById(R.id.first_text_show);
         mTitleText = itemView.findViewById(R.id.title_show_text);
         mDateText = itemView.findViewById(R.id.date_show_text);
+        mImageEdit = itemView.findViewById(R.id.edit_image_view);
+        mImageEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogEditFragment dialogEditFragment = DialogEditFragment.newInstance(mTask);
+                dialogEditFragment.show(((AppCompatActivity)v.getContext()).getSupportFragmentManager(),EDIT_TAG);
+            }
+        });
     }
 
     public void bind(Task task){
