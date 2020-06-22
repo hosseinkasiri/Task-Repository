@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.example.task.R;
+import com.example.task.helper.Toaster;
 import com.example.task.model.Task;
 import com.example.task.model.TaskLab;
 import com.example.task.model.TaskListMode;
@@ -32,7 +33,7 @@ public class TaskListFragment extends Fragment {
     private TaskAdapter mAdapter;
     private List<Task> mTasks;
     private TaskListMode mListMode;
-    private static final String TRASH_TAG = "com.example.task.controller_trash";
+    private static final String TRASH_TAG = "com.example.task.controller_trash",ADD_TAG = "add tag dialog";
     private static final String ARGS_TASK_MODE = " package com.example.task.task_task mode";
 
     public TaskListFragment() {
@@ -55,8 +56,8 @@ public class TaskListFragment extends Fragment {
         mAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = AddActivity.newIntent(getActivity());
-                startActivityForResult(intent , 0);
+                AddFragment addFragment = AddFragment.newInstance();
+                addFragment.show(getFragmentManager(),ADD_TAG);
             }
         });
 

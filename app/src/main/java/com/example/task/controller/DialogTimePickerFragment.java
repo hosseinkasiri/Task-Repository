@@ -1,4 +1,4 @@
-package com.example.task;
+package com.example.task.controller;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -8,17 +8,15 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TimePicker;
 
+import com.example.task.R;
 import com.example.task.model.Task;
 import com.example.task.model.TaskLab;
 
-import java.sql.Time;
 import java.util.Calendar;
 import java.util.Date;
 

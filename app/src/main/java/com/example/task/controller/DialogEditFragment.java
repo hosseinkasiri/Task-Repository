@@ -15,8 +15,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.task.DialogDatePickerFragment;
-import com.example.task.DialogTimePickerFragment;
 import com.example.task.R;
 import com.example.task.model.Task;
 import com.example.task.model.TaskLab;

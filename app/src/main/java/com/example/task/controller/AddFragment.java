@@ -1,7 +1,13 @@
 package com.example.task.controller;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import android.text.Html;
@@ -17,74 +23,64 @@ import com.example.task.model.Task;
 import com.example.task.model.TaskLab;
 import com.example.task.helper.Toaster;
 
-public class AddFragment extends Fragment {
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
+public class AddFragment extends DialogFragment {
 
     private EditText mDescriptionText;
     private TextView mDateText;
     private TextView mTimeText;
     private Task mTask;
-    private Button mCancelButton;
-    private Button mDoneButton;
     private EditText mTitleText;
     private TextView mTitleTextView;
-    private Toaster mToaster = new Toaster();
 
     public AddFragment() {
         // Required empty public constructor
     }
 
     public static AddFragment newInstance() {
-
         Bundle args = new Bundle();
         AddFragment fragment = new AddFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
-
+    @NonNull
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_add, container, false);
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_add,null);
         findViews(view);
         setTitleText();
         mTask = new Task();
-        mDateText.setText(mTask.getDate().toString());
-        mDoneButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
+        mDateText.setText(dateFormat.format(mTask.getDate()));
+        DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+        mTimeText.setText(timeFormat.format(mTask.getDate()));
+        return new AlertDialog.Builder(getActivity())
+                .setView(view)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (mTitleText.getText().toString().matches(""))
+                            Toaster.makeToast(getActivity(),"please write title!!!");
 
-                if (mTitleText.getText().toString().matches("")){
-                    mToaster.makeToast(getActivity() , "please enter title");
-                }
-
-                else {
-                    Task task = mTask;
-                    task.setDescription(mDescriptionText.getText().toString());
-                    task.setTitle(mTitleText.getText().toString());
-                    TaskLab.getInstance().addTask(task);
-                    getActivity().finish();
-                }
-            }
-        });
-
-        mCancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().finish();
-            }
-        });
-        return view;
+                        else {
+                            Task task = mTask;
+                            task.setDescription(mDescriptionText.getText().toString());
+                            task.setTitle(mTitleText.getText().toString());
+                            TaskLab.getInstance().addTask(task);
+                        }
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel,null)
+                .create();
     }
-
-
 
     private void findViews(View view) {
         mDescriptionText = view.findViewById(R.id.description_edit_id);
         mDateText = view.findViewById(R.id.date_id);
         mTimeText = view.findViewById(R.id.time_text_id);
-        mCancelButton = view.findViewById(R.id.cancel_button);
-        mDoneButton = view.findViewById(R.id.done_button);
         mTitleText = view.findViewById(R.id.title_edit_id);
         mTitleTextView = view.findViewById(R.id.title_text_view);
     }
@@ -92,5 +88,17 @@ public class AddFragment extends Fragment {
     private void setTitleText() {
         String text = "Title</font> <font color=#FF0000> *</font>";
         mTitleTextView.setText(Html.fromHtml(text,0));
+    }
+
+    public void bindListener (){
+        if (mTitleText.getText().toString().matches("")){
+            Toaster.makeToast(getActivity(),"please enter title !!!");
+        }
+        else {
+            Task task = mTask;
+            task.setDescription(mDescriptionText.getText().toString());
+            task.setTitle(mTitleText.getText().toString());
+            TaskLab.getInstance().addTask(task);
+        }
     }
 }
