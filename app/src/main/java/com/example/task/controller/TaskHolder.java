@@ -10,6 +10,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.task.R;
 import com.example.task.model.Task;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 class TaskHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     private TextView mFirstText , mTitleText , mDateText;
     private Task mTask;
@@ -30,7 +34,9 @@ class TaskHolder extends RecyclerView.ViewHolder implements View.OnClickListener
         String firstCharacterOfTitle = String.valueOf(task.getTitle().charAt(0));
         mFirstText.setText(firstCharacterOfTitle);
         mTitleText.setText(task.getTitle());
-        mDateText.setText(task.getDate().toString());
+       // mDateText.setText(task.getDate().toString());
+        DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd         HH:mm:ss");
+        mDateText.setText(dateFormat.format(mTask.getDate()));
         mImageEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

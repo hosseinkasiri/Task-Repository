@@ -45,11 +45,16 @@
             android:textColor="@color/buttonColorAdd"
             android:id="@+id/dialog_edit_description"/>
 
-        <DatePicker
-            android:id="@+id/dialog_date_picker"
+        <Button
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="20dp"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:id="@+id/date_picker_button"/>
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:id="@+id/time_picker_button"/>
     </LinearLayout>
 </FrameLayout>

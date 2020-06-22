@@ -11,24 +11,25 @@ import androidx.fragment.app.DialogFragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.DatePicker;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.task.DialogDatePickerFragment;
+import com.example.task.DialogTimePickerFragment;
 import com.example.task.R;
 import com.example.task.model.Task;
 import com.example.task.model.TaskLab;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 public class DialogEditFragment extends DialogFragment {
 
-    private static final String ARG_TASK = "com.example.task_task";
+    private static final String ARG_TASK = "com.example.task_task",DATE_TAG = "Date",TIME_TAG = "Time";
     private TextView mTitleText;
     private EditText mDescriptionText;
-    private DatePicker mDatePicker;
+    private Button mDateButton,mTimeButton;
     private Task mTask;
 
     public DialogEditFragment() {
@@ -48,35 +49,47 @@ public class DialogEditFragment extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_dialog_edit,null);
         findViews(view);
-        mTask = (Task) getArguments().getSerializable(ARG_TASK);
-        mTitleText.setText(mTask.getTitle());
-        mDescriptionText.setText(mTask.getDescription());
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(mTask.getDate());
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        mDatePicker.init(year,month,day,null);
+        setTextAttribute();
+        mDateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogDatePickerFragment datePickerFragment = DialogDatePickerFragment.newInstance(mTask);
+                datePickerFragment.show(getFragmentManager(),DATE_TAG);
+            }
+        });
+        mTimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogTimePickerFragment timePickerFragment = DialogTimePickerFragment.newInstance(mTask);
+                timePickerFragment.show(getFragmentManager(),TIME_TAG);
+            }
+        });
         return new AlertDialog.Builder(getActivity())
                 .setView(view)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         TaskLab.getInstance().getTask(mTask.getId()).setDescription(mDescriptionText.getText().toString());
-                        int year = mDatePicker.getYear();
-                        int month = mDatePicker.getMonth();
-                        int day = mDatePicker.getDayOfMonth();
-                        Date date = new GregorianCalendar(year,month,day).getTime();
-                        TaskLab.getInstance().getTask(mTask.getId()).setDate(date);
                     }
                 })
                 .setNegativeButton(android.R.string.cancel,null)
                 .create();
     }
 
+    private void setTextAttribute() {
+        mTask = (Task) getArguments().getSerializable(ARG_TASK);
+        mTitleText.setText(mTask.getTitle());
+        mDescriptionText.setText(mTask.getDescription());
+        DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
+        mDateButton.setText(dateFormat.format(mTask.getDate()));
+        DateFormat timeFormat = new SimpleDateFormat("HH-mm-ss");
+        mTimeButton.setText(timeFormat.format(mTask.getDate()));
+    }
+
     private void findViews(View view) {
         mTitleText = view.findViewById(R.id.dialog_edit_title);
         mDescriptionText = view.findViewById(R.id.dialog_edit_description);
-        mDatePicker = view.findViewById(R.id.dialog_date_picker);
+        mDateButton = view.findViewById(R.id.date_picker_button);
+        mTimeButton = view.findViewById(R.id.time_picker_button);
     }
 }
