@@ -18,6 +18,6 @@ public class AddActivity extends SingleFragmentActivity {
 
     @Override
     public Fragment mFragment() {
-        return AddFragment.newInstance();
+        return null;
     }
 }

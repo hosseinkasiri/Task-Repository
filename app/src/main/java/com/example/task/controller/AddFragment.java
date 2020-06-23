@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.example.task.R;
@@ -26,7 +28,7 @@ import com.example.task.helper.Toaster;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
-public class AddFragment extends DialogFragment {
+public class AddFragment extends DialogFragment{
 
     private EditText mDescriptionText;
     private TextView mDateText;
@@ -34,14 +36,16 @@ public class AddFragment extends DialogFragment {
     private Task mTask;
     private EditText mTitleText;
     private TextView mTitleTextView;
+    private DialogInterface.OnDismissListener mOnDismissListener;
 
-    public AddFragment() {
+    public AddFragment(DialogInterface.OnDismissListener listener) {
         // Required empty public constructor
+        mOnDismissListener = listener;
     }
 
-    public static AddFragment newInstance() {
+    public static AddFragment newInstance(DialogInterface.OnDismissListener listener) {
         Bundle args = new Bundle();
-        AddFragment fragment = new AddFragment();
+        AddFragment fragment = new AddFragment(listener);
         fragment.setArguments(args);
         return fragment;
     }
@@ -77,6 +81,14 @@ public class AddFragment extends DialogFragment {
                 .create();
     }
 
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+        if (mOnDismissListener != null)
+            mOnDismissListener.onDismiss(dialog);
+
+    }
+
     private void findViews(View view) {
         mDescriptionText = view.findViewById(R.id.description_edit_id);
         mDateText = view.findViewById(R.id.date_id);
@@ -88,17 +100,5 @@ public class AddFragment extends DialogFragment {
     private void setTitleText() {
         String text = "Title</font> <font color=#FF0000> *</font>";
         mTitleTextView.setText(Html.fromHtml(text,0));
-    }
-
-    public void bindListener (){
-        if (mTitleText.getText().toString().matches("")){
-            Toaster.makeToast(getActivity(),"please enter title !!!");
-        }
-        else {
-            Task task = mTask;
-            task.setDescription(mDescriptionText.getText().toString());
-            task.setTitle(mTitleText.getText().toString());
-            TaskLab.getInstance().addTask(task);
-        }
     }
 }

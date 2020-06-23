@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TaskListFragment extends Fragment {
+public class TaskListFragment extends Fragment{
 
     private ImageButton mAddButton,mDeleteButton;
     private ImageView mImageView;
@@ -56,7 +56,12 @@ public class TaskListFragment extends Fragment {
         mAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddFragment addFragment = AddFragment.newInstance();
+                AddFragment addFragment = AddFragment.newInstance(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        updateUi();
+                    }
+                });
                 addFragment.show(getFragmentManager(),ADD_TAG);
             }
         });
@@ -64,10 +69,9 @@ public class TaskListFragment extends Fragment {
         mDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TrashDialogFragment trashDialogFragment = TrashDialogFragment.newInstance(new DialogInterface.OnClickListener() {
+                TrashDialogFragment trashDialogFragment = TrashDialogFragment.newInstance(new DialogInterface.OnDismissListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        TaskLab.getInstance().clearTasks();
+                    public void onDismiss(DialogInterface dialog) {
                         updateUi();
                     }
                 });
@@ -78,7 +82,6 @@ public class TaskListFragment extends Fragment {
         mListMode = (TaskListMode) getArguments().getSerializable(ARGS_TASK_MODE);
         return view;
     }
-
     public void updateUi() {
         mTasks =  TaskLab.getInstance().getTasks(mListMode);
         mAdapter = new TaskAdapter(getActivity(), mTasks);

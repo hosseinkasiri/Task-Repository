@@ -29,6 +29,7 @@ public class DialogEditFragment extends DialogFragment {
     private EditText mDescriptionText;
     private Button mDateButton,mTimeButton;
     private Task mTask;
+    private DialogInterface.OnDismissListener mOnDismissListener;
 
     public DialogEditFragment() {
     }
@@ -72,6 +73,13 @@ public class DialogEditFragment extends DialogFragment {
                 })
                 .setNegativeButton(android.R.string.cancel,null)
                 .create();
+    }
+
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+        if (mOnDismissListener!=null)
+            mOnDismissListener.onDismiss(dialog);
     }
 
     private void setTextAttribute() {

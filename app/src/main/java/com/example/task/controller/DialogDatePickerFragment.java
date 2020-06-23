@@ -26,6 +26,7 @@ public class DialogDatePickerFragment extends DialogFragment {
 
     private DatePicker mDatePicker;
     private Task mTask;
+    private DialogInterface.OnDismissListener mOnDismissListener;
     private static final String ARG_TASK = "com.example.task_Task";
 
     public DialogDatePickerFragment() {
@@ -59,6 +60,13 @@ public class DialogDatePickerFragment extends DialogFragment {
                     }
                 })
                 .create();
+    }
+
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+        if (mOnDismissListener!=null)
+            mOnDismissListener.onDismiss(dialog);
     }
 
     private void setDatePicker() {

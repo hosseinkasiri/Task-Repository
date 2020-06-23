@@ -1,5 +1,6 @@
 package com.example.task.controller;
 
+import android.content.DialogInterface;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,7 +35,6 @@ class TaskHolder extends RecyclerView.ViewHolder implements View.OnClickListener
         String firstCharacterOfTitle = String.valueOf(task.getTitle().charAt(0));
         mFirstText.setText(firstCharacterOfTitle);
         mTitleText.setText(task.getTitle());
-       // mDateText.setText(task.getDate().toString());
         DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd         HH:mm:ss");
         mDateText.setText(dateFormat.format(mTask.getDate()));
         mImageEdit.setOnClickListener(new View.OnClickListener() {
