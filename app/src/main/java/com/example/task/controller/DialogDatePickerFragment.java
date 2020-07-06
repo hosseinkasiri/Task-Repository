@@ -56,7 +56,7 @@ public class DialogDatePickerFragment extends DialogFragment {
                         int month = mDatePicker.getMonth();
                         int day = mDatePicker.getDayOfMonth();
                         Date date = new GregorianCalendar(year,month,day).getTime();
-                        TaskLab.getInstance().getTask(mTask.getId()).setDate(date);
+                        TaskLab.getInstance(getActivity()).getTask(mTask.getId()).setDate(date);
                     }
                 })
                 .create();

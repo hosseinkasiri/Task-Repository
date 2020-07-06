@@ -57,7 +57,7 @@ public class DialogTimePickerFragment extends DialogFragment {
                         calendar.set(calendar.HOUR_OF_DAY,hour);
                         calendar.set(calendar.MINUTE,minute);
                         Date date = calendar.getTime();
-                        TaskLab.getInstance().getTask(mTask.getId()).setDate(date);
+                        TaskLab.getInstance(getActivity()).getTask(mTask.getId()).setDate(date);
                     }
                 })
                 .create();

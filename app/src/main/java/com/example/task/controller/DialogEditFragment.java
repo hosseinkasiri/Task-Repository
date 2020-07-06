@@ -68,7 +68,7 @@ public class DialogEditFragment extends DialogFragment {
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        TaskLab.getInstance().getTask(mTask.getId()).setDescription(mDescriptionText.getText().toString());
+                        TaskLab.getInstance(getActivity()).getTask(mTask.getId()).setDescription(mDescriptionText.getText().toString());
                     }
                 })
                 .setNegativeButton(android.R.string.cancel,null)

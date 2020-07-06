@@ -83,7 +83,7 @@ public class TaskListFragment extends Fragment{
         return view;
     }
     public void updateUi() {
-        mTasks =  TaskLab.getInstance().getTasks(mListMode);
+        mTasks =  TaskLab.getInstance(getActivity()).getTasks(mListMode);
         mAdapter = new TaskAdapter(getActivity(), mTasks);
         mRecyclerView.setAdapter(mAdapter);
         if (mTasks.size() != 0){

@@ -73,7 +73,7 @@ public class AddFragment extends DialogFragment{
                             Task task = mTask;
                             task.setDescription(mDescriptionText.getText().toString());
                             task.setTitle(mTitleText.getText().toString());
-                            TaskLab.getInstance().addTask(task);
+                            TaskLab.getInstance(getActivity()).addTask(task);
                         }
                     }
                 })

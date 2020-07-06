@@ -34,7 +34,7 @@ public class TrashDialogFragment extends DialogFragment {
                  .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                      @Override
                      public void onClick(DialogInterface dialog, int which) {
-                         TaskLab.getInstance().clearTasks();
+                         TaskLab.getInstance(getActivity()).clearTasks();
                      }
                  })
                  .setNegativeButton(android.R.string.no,null)

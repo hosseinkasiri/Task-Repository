@@ -25,10 +25,6 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
             manager.beginTransaction()
                     .add(R.id.activity_add , mFragment())
                     .commit();
-
         }
-
-
-
     }
 }
