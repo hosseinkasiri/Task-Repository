@@ -49,7 +49,6 @@ public class TaskLab {
         TaskCursorWrapper cursor = queryTask(null, null);
         if (cursor.getCount() == 0)
             return tasks;
-
         try {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()){
