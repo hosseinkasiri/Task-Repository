@@ -3,11 +3,16 @@ package com.example.task.controller;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -29,7 +34,7 @@ public class TaskListFragment extends Fragment{
     private static final String TRASH_TAG = "com.example.task.controller_trash",ADD_TAG = "add tag dialog";
     private static final String ARGS_TASK_MODE = " package com.example.task.task_task mode";
     public static final String USER_ID = "com.example.task.controller_userId";
-    private ImageButton mAddButton,mDeleteButton;
+    private ImageButton mAddButton;
     private ImageView mImageView;
     private RecyclerView mRecyclerView;
     private TaskAdapter mAdapter;
@@ -48,6 +53,13 @@ public class TaskListFragment extends Fragment{
         fragment.setArguments(args);
         return fragment;
     }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -67,8 +79,7 @@ public class TaskListFragment extends Fragment{
                 addFragment.show(getFragmentManager(),ADD_TAG);
             }
         });
-
-        mDeleteButton.setOnClickListener(new View.OnClickListener() {
+       /* mDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 TrashDialogFragment trashDialogFragment = TrashDialogFragment.newInstance(new DialogInterface.OnDismissListener() {
@@ -79,11 +90,35 @@ public class TaskListFragment extends Fragment{
                 });
                 trashDialogFragment.show(getFragmentManager(),TRASH_TAG);
             }
-        });
+        });*/
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mListMode = (TaskListMode) getArguments().getSerializable(ARGS_TASK_MODE);
         return view;
     }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.list_toolbar_menu,menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.trash_menu:
+                TrashDialogFragment trashDialogFragment = TrashDialogFragment.newInstance(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        updateUi();
+                    }
+                });
+                trashDialogFragment.show(getFragmentManager(),TRASH_TAG);
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     public void updateUi() {
         mUserId = (UUID) getArguments().getSerializable(USER_ID);
         mTasks =  TaskLab.getInstance(getActivity()).getTasks(mListMode,mUserId);
@@ -107,6 +142,6 @@ public class TaskListFragment extends Fragment{
         mImageView = view.findViewById(R.id.imageView);
         mAddButton = view.findViewById(R.id.add_button);
         mRecyclerView = view.findViewById(R.id.recycler_view);
-        mDeleteButton = view.findViewById(R.id.delete_tasks_button);
+       // mDeleteButton = view.findViewById(R.id.delete_tasks_button);
     }
 }

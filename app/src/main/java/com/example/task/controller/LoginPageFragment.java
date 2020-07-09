@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -17,6 +18,8 @@ import com.example.task.R;
 import com.example.task.helper.Toaster;
 import com.example.task.model.User;
 import com.example.task.model.UserLab;
+
+import java.util.Objects;
 
 public class LoginPageFragment extends Fragment {
     private EditText mUsername,mPassword;
@@ -54,9 +57,6 @@ public class LoginPageFragment extends Fragment {
         mGuest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-
             }
         });
         mLoginButton.setOnClickListener(new View.OnClickListener() {
@@ -74,6 +74,14 @@ public class LoginPageFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Objects.requireNonNull(((AppCompatActivity)
+                Objects.requireNonNull(getActivity())).
+                getSupportActionBar()).hide();
     }
 
     private void findViews(View view) {

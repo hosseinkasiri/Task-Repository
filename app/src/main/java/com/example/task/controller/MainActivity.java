@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
     
     private void findViews() {
         mTabLayout = findViewById(R.id.tab_layout_id);
-        mAppBarLayout = findViewById(R.id.app_bar_id);
         mViewPager = findViewById(R.id.view_pager_id);
        // mTrashView = findViewById(R.id.trash_task_id);
     }

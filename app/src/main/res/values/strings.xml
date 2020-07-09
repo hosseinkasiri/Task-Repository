@@ -11,4 +11,6 @@
     <string name="first_name">first name :</string>
     <string name="last_name">Last name :</string>
     <string name="login_as_a_guest_user">Login as a guest user</string>
+    <string name="search">search</string>
+    <string name="trash">Trash</string>
 </resources>
