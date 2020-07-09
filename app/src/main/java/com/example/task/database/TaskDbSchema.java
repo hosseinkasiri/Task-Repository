@@ -14,6 +14,7 @@ public class TaskDbSchema {
             public static final String LAST_NAME = "lastName";
             public static final String USERNAME = "username";
             public static final String PASSWORD = "password";
+            public static final String GUEST = "guest";
         }
     }
 

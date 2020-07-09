@@ -9,6 +9,7 @@ public class User {
     private UUID mUuid;
     private String mUsername;
     private String mPassword;
+    private boolean mGuest;
 
     public User() {
         this(UUID.randomUUID());
@@ -16,6 +17,7 @@ public class User {
 
     public User(UUID uuid){
         mUuid = uuid;
+        mGuest = false;
     }
     
     public String getFirstName() {
@@ -52,5 +54,13 @@ public class User {
 
     public void setPassword(String password) {
         mPassword = password;
+    }
+
+    public boolean isGuest() {
+        return mGuest;
+    }
+
+    public void setGuest(boolean guest) {
+        mGuest = guest;
     }
 }

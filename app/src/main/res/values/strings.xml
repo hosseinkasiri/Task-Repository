@@ -13,4 +13,9 @@
     <string name="login_as_a_guest_user">Login as a guest user</string>
     <string name="search">search</string>
     <string name="trash">Trash</string>
+    <string name="logout">logOut</string>
+    <string name="log_out1">Are you sure you want to log out ?</string>
+    <string name="log_out2">if you login with guest your task is destroy !</string>
+    <string name="log_out3">if you want do`nt destroy your task you should sign up</string>
+
 </resources>

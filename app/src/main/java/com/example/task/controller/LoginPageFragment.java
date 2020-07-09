@@ -57,6 +57,12 @@ public class LoginPageFragment extends Fragment {
         mGuest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                User user = new User();
+                user.setGuest(true);
+                UserLab.getInstance(getActivity()).addUser(user);
+                Intent intent = MainActivity.newIntent(getActivity(),user.getUuid());
+                startActivity(intent);
+                getActivity().finish();
             }
         });
         mLoginButton.setOnClickListener(new View.OnClickListener() {

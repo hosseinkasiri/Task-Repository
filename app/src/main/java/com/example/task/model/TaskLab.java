@@ -107,8 +107,10 @@ public class TaskLab {
         mDatabase.delete(TaskDbSchema.TaskTable.NAME,whereClause,new String[]{id.toString()});
     }
 
-    public void clearTasks(){
-        mDatabase.delete(TaskDbSchema.TaskTable.NAME,null,null);
+    public void clearTasks(UUID userId){
+        String whereClause = TaskDbSchema.TaskTable.TaskCols.USER_ID + " = ?";
+        String[] whereArgs = new String[]{userId.toString()};
+        mDatabase.delete(TaskDbSchema.TaskTable.NAME,whereClause,whereArgs);
     }
 
     public ContentValues getContentValues(Task task){

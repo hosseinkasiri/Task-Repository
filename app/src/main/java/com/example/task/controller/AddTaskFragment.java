@@ -26,7 +26,7 @@ import java.util.UUID;
 
 public class AddTaskFragment extends DialogFragment{
 
-    public static final String USER_ID = "com.example.task.controller_userId";
+    private static final String USER_ID = "com.example.task.controller_userId";
     private EditText mDescriptionText;
     private TextView mDateText;
     private TextView mTimeText;

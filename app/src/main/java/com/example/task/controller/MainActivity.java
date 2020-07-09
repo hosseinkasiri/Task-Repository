@@ -21,11 +21,8 @@ import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TRASH_TAG = "com.example.task.controller_trash";
-    public static final String USER_ID = "com.example.task.controller_userId";
+    private static final String USER_ID = "com.example.task.controller_userId";
     private TabLayout mTabLayout;
-    private AppBarLayout mAppBarLayout;
-   // private ImageView mTrashView;
     private ViewPager mViewPager;
     private ViewPagerAdapter adapter;
     private TaskListMode mAll = TaskListMode.all;
@@ -44,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         findViews();
-       // String uuid =  getIntent().getStringExtra(USER_ID);
         mUserId = (UUID) getIntent().getSerializableExtra(USER_ID);
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(TaskListFragment.newInstance(mAll,mUserId) , "All" );
@@ -57,6 +53,5 @@ public class MainActivity extends AppCompatActivity {
     private void findViews() {
         mTabLayout = findViewById(R.id.tab_layout_id);
         mViewPager = findViewById(R.id.view_pager_id);
-       // mTrashView = findViewById(R.id.trash_task_id);
     }
 }

@@ -49,6 +49,22 @@ public class UserLab {
         }
     }
 
+    public User getUserById(UUID userId){
+        String whereClause = TaskDbSchema.UserTable.UserCols.UUID + " = ? ";
+        String[] whereArgs = new String[]{userId.toString()};
+        UserCursorWrapper cursor = queryUser(whereClause, whereArgs);
+        if (cursor.getCount() == 0)
+            return null;
+
+        try {
+            cursor.moveToFirst();
+            return cursor.getUser();
+
+        } finally {
+            cursor.close();
+        }
+    }
+
     private UserCursorWrapper queryUser(String whereClause, String[] whereArgs) {
         Cursor cursor = mDatabase.query(
                     TaskDbSchema.UserTable.NAME,
@@ -59,6 +75,12 @@ public class UserLab {
                     null
             );
         return new UserCursorWrapper(cursor);
+    }
+
+    public void deleteUser(UUID userId){
+        String whereClause = TaskDbSchema.UserTable.UserCols.UUID + " = ?";
+        String[] whereArgs = new String[]{userId.toString()};
+        mDatabase.delete(TaskDbSchema.UserTable.NAME,whereClause,whereArgs);
     }
 
     public ContentValues getContentValues(User user){
