@@ -58,7 +58,8 @@ public class LogOutDialogFragment extends DialogFragment {
                 .setNeutralButton("sign up", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        Intent intent = SignUpActivity.newIntent(getActivity(),mUserId);
+                        startActivity(intent);
                     }
                 })
                 .setNegativeButton(android.R.string.cancel,null)

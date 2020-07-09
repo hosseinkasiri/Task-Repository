@@ -16,15 +16,19 @@ import com.example.task.R;
 import com.example.task.model.User;
 import com.example.task.model.UserLab;
 
+import java.util.UUID;
+
 public class SignUpFragment extends Fragment {
 
+    private static final String USER_ID = "com.example.task.controller_userId";
     private EditText mFirstName,mLastName,mUsername,mPassword;
     private Button mDoneButton,mCancelButton;
+    private UUID mUserId;
 
-    public static SignUpFragment newInstance() {
+    public static SignUpFragment newInstance(UUID userId) {
 
         Bundle args = new Bundle();
-
+        args.putSerializable(USER_ID,userId);
         SignUpFragment fragment = new SignUpFragment();
         fragment.setArguments(args);
         return fragment;
@@ -34,10 +38,12 @@ public class SignUpFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sign_up,container,false);
         findViews(view);
+        mUserId = (UUID) getArguments().getSerializable(USER_ID);
         mDoneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                User user = new User();
+                UserLab.getInstance(getActivity()).deleteUser(mUserId);
+                User user = new User(mUserId);
                 user.setFirstName(mFirstName.getText().toString());
                 user.setLastName(mLastName.getText().toString());
                 user.setUsername(mUsername.getText().toString());

@@ -20,6 +20,7 @@ import com.example.task.model.User;
 import com.example.task.model.UserLab;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class LoginPageFragment extends Fragment {
     private EditText mUsername,mPassword;
@@ -50,7 +51,7 @@ public class LoginPageFragment extends Fragment {
         mSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = SignUpActivity.newIntent(getActivity());
+                Intent intent = SignUpActivity.newIntent(getActivity(), UUID.randomUUID());
                 startActivity(intent);
             }
         });

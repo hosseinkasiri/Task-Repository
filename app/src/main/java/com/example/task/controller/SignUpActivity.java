@@ -8,17 +8,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 
+import java.util.UUID;
+
 public class SignUpActivity extends SingleFragmentActivity {
 
-    public static Intent newIntent(Context context){
-        Intent intent = new Intent(context,SignUpActivity.class);
+    private static final String USER_ID = "com.example.task.controller_userId";
 
+    public static Intent newIntent(Context context, UUID userId){
+        Intent intent = new Intent(context,SignUpActivity.class);
+        intent.putExtra(USER_ID,userId);
         return intent;
     }
 
-
     @Override
     public Fragment mFragment() {
-        return SignUpFragment.newInstance();
+        UUID UserId = (UUID) getIntent().getSerializableExtra(USER_ID);
+        return SignUpFragment.newInstance(UserId);
     }
 }
