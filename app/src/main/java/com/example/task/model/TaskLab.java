@@ -44,9 +44,11 @@ public class TaskLab {
         mDatabase.insert(TaskDbSchema.TaskTable.NAME,null,values);
     }
 
-    public List<Task> getTasks(TaskListMode taskListMode) {
+    public List<Task> getTasks(TaskListMode taskListMode,UUID userId) {
         List<Task> tasks = new ArrayList<>();
-        TaskCursorWrapper cursor = queryTask(null, null);
+        String whereClause = TaskDbSchema.TaskTable.TaskCols.USER_ID + " = ?";
+        String[] whereArgs = new String[]{userId.toString()};
+        TaskCursorWrapper cursor = queryTask(whereClause, whereArgs);
         if (cursor.getCount() == 0)
             return tasks;
         try {
@@ -117,7 +119,6 @@ public class TaskLab {
         values.put(TaskDbSchema.TaskTable.TaskCols.DATE,task.getDate().toString());
         values.put(TaskDbSchema.TaskTable.TaskCols.DONE,task.isDone());
         values.put(TaskDbSchema.TaskTable.TaskCols.USER_ID,task.getUserId().toString());
-
         return values;
     }
 }

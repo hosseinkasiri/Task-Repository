@@ -65,5 +65,12 @@
             android:textColor="@color/buttonColorAdd"
             android:text="@string/forgot" />
 
+        <TextView
+            android:id="@+id/guest_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/login_as_a_guest_user"
+            android:textColor="@color/tabLayoutColor"/>
+
     </LinearLayout>
 </LinearLayout>

@@ -1,11 +1,9 @@
 package com.example.task.controller;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,32 +14,36 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.example.task.R;
-import com.example.task.helper.Toaster;
 import com.example.task.model.Task;
 import com.example.task.model.TaskLab;
 import com.example.task.model.TaskListMode;
 
 import java.util.List;
+import java.util.UUID;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class TaskListFragment extends Fragment{
 
+    private static final String TRASH_TAG = "com.example.task.controller_trash",ADD_TAG = "add tag dialog";
+    private static final String ARGS_TASK_MODE = " package com.example.task.task_task mode";
+    public static final String USER_ID = "com.example.task.controller_userId";
     private ImageButton mAddButton,mDeleteButton;
     private ImageView mImageView;
     private RecyclerView mRecyclerView;
     private TaskAdapter mAdapter;
     private List<Task> mTasks;
     private TaskListMode mListMode;
-    private static final String TRASH_TAG = "com.example.task.controller_trash",ADD_TAG = "add tag dialog";
-    private static final String ARGS_TASK_MODE = " package com.example.task.task_task mode";
+    private UUID mUserId;
 
     public TaskListFragment() {
     }
 
-    public static TaskListFragment newInstance(TaskListMode listMode) {
+    public static TaskListFragment newInstance(TaskListMode listMode, UUID userId) {
         Bundle args = new Bundle();
         args.putSerializable(ARGS_TASK_MODE , listMode);
+        args.putSerializable(USER_ID,userId);
         TaskListFragment fragment = new TaskListFragment();
         fragment.setArguments(args);
         return fragment;
@@ -56,12 +58,12 @@ public class TaskListFragment extends Fragment{
         mAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddFragment addFragment = AddFragment.newInstance(new DialogInterface.OnDismissListener() {
+                AddTaskFragment addFragment = AddTaskFragment.newInstance(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
                         updateUi();
                     }
-                });
+                },mUserId);
                 addFragment.show(getFragmentManager(),ADD_TAG);
             }
         });
@@ -83,7 +85,8 @@ public class TaskListFragment extends Fragment{
         return view;
     }
     public void updateUi() {
-        mTasks =  TaskLab.getInstance(getActivity()).getTasks(mListMode);
+        mUserId = (UUID) getArguments().getSerializable(USER_ID);
+        mTasks =  TaskLab.getInstance(getActivity()).getTasks(mListMode,mUserId);
         mAdapter = new TaskAdapter(getActivity(), mTasks);
         mRecyclerView.setAdapter(mAdapter);
         if (mTasks.size() != 0){

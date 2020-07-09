@@ -1,5 +1,6 @@
 package com.example.task.controller;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -13,11 +14,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.task.R;
+import com.example.task.helper.Toaster;
+import com.example.task.model.User;
+import com.example.task.model.UserLab;
 
 public class LoginPageFragment extends Fragment {
     private EditText mUsername,mPassword;
     private Button mLoginButton;
-    private TextView mSignUp;
+    private TextView mSignUp,mGuest;
+    private User mUser;
 
     public static LoginPageFragment newInstance() {
 
@@ -39,7 +44,35 @@ public class LoginPageFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_login_page, container, false);
         findViews(view);
+        mSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = SignUpActivity.newIntent(getActivity());
+                startActivity(intent);
+            }
+        });
+        mGuest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+
+
+            }
+        });
+        mLoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               mUser = UserLab.getInstance(getActivity()).getUser(mUsername.getText().toString(),mPassword.getText().toString());
+               if (mUser != null){
+                   Intent intent = MainActivity.newIntent(getActivity(),mUser.getUuid());
+                   startActivity(intent);
+                   getActivity().finish();
+               }
+               else {
+                   Toaster.makeToast(getActivity(),"please check username or password ");
+               }
+            }
+        });
         return view;
     }
 
@@ -48,5 +81,6 @@ public class LoginPageFragment extends Fragment {
         mPassword = view.findViewById(R.id.password_edit_text);
         mLoginButton = view.findViewById(R.id.login_button);
         mSignUp = view.findViewById(R.id.sign_up_text);
+        mGuest = view.findViewById(R.id.guest_login);
     }
 }

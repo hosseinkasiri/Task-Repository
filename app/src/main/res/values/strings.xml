@@ -8,4 +8,7 @@
     <string name="login">login</string>
     <string name="sign_up">Sign up</string>
     <string name="forgot">forgot username or password</string>
+    <string name="first_name">first name :</string>
+    <string name="last_name">Last name :</string>
+    <string name="login_as_a_guest_user">Login as a guest user</string>
 </resources>

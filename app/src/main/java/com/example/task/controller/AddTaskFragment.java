@@ -8,16 +8,11 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.example.task.R;
@@ -27,9 +22,11 @@ import com.example.task.helper.Toaster;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.UUID;
 
-public class AddFragment extends DialogFragment{
+public class AddTaskFragment extends DialogFragment{
 
+    public static final String USER_ID = "com.example.task.controller_userId";
     private EditText mDescriptionText;
     private TextView mDateText;
     private TextView mTimeText;
@@ -37,15 +34,17 @@ public class AddFragment extends DialogFragment{
     private EditText mTitleText;
     private TextView mTitleTextView;
     private DialogInterface.OnDismissListener mOnDismissListener;
+    private UUID mUserId;
 
-    public AddFragment(DialogInterface.OnDismissListener listener) {
+    public AddTaskFragment(DialogInterface.OnDismissListener listener) {
         // Required empty public constructor
         mOnDismissListener = listener;
     }
 
-    public static AddFragment newInstance(DialogInterface.OnDismissListener listener) {
+    public static AddTaskFragment newInstance(DialogInterface.OnDismissListener listener, UUID userId) {
         Bundle args = new Bundle();
-        AddFragment fragment = new AddFragment(listener);
+        args.putSerializable(USER_ID,userId);
+        AddTaskFragment fragment = new AddTaskFragment(listener);
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,11 +55,13 @@ public class AddFragment extends DialogFragment{
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_add,null);
         findViews(view);
         setTitleText();
+        mUserId = (UUID) getArguments().getSerializable(USER_ID);
         mTask = new Task();
         DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
         mDateText.setText(dateFormat.format(mTask.getDate()));
         DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
         mTimeText.setText(timeFormat.format(mTask.getDate()));
+        mTask.setUserId(mUserId);
         return new AlertDialog.Builder(getActivity())
                 .setView(view)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -73,6 +74,7 @@ public class AddFragment extends DialogFragment{
                             Task task = mTask;
                             task.setDescription(mDescriptionText.getText().toString());
                             task.setTitle(mTitleText.getText().toString());
+                            task.setUserId(mUserId);
                             TaskLab.getInstance(getActivity()).addTask(task);
                         }
                     }

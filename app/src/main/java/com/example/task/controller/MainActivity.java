@@ -17,9 +17,12 @@ import com.example.task.model.TaskListMode;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.UUID;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String TRASH_TAG = "com.example.task.controller_trash";
+    public static final String USER_ID = "com.example.task.controller_userId";
     private TabLayout mTabLayout;
     private AppBarLayout mAppBarLayout;
    // private ImageView mTrashView;
@@ -28,9 +31,11 @@ public class MainActivity extends AppCompatActivity {
     private TaskListMode mAll = TaskListMode.all;
     private TaskListMode mDone = TaskListMode.done;
     private TaskListMode mUnDone = TaskListMode.unDone;
+    private UUID mUserId;
 
-    public static Intent newIntent(Context context){
+    public static Intent newIntent(Context context, UUID userId){
         Intent intent = new Intent(context , MainActivity.class);
+        intent.putExtra(USER_ID,userId);
         return intent;
     }
 
@@ -39,10 +44,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         findViews();
+       // String uuid =  getIntent().getStringExtra(USER_ID);
+        mUserId = (UUID) getIntent().getSerializableExtra(USER_ID);
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(TaskListFragment.newInstance(mAll) , "All" );
-        adapter.addFragment(TaskListFragment.newInstance(mDone) , "Done");
-        adapter.addFragment(TaskListFragment.newInstance(mUnDone) , "UnDone");
+        adapter.addFragment(TaskListFragment.newInstance(mAll,mUserId) , "All" );
+        adapter.addFragment(TaskListFragment.newInstance(mDone,mUserId) , "Done");
+        adapter.addFragment(TaskListFragment.newInstance(mUnDone,mUserId) , "UnDone");
         mViewPager.setAdapter(adapter);
         mTabLayout.setupWithViewPager(mViewPager);
     }

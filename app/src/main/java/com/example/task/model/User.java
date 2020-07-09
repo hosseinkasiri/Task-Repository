@@ -11,7 +11,11 @@ public class User {
     private String mPassword;
 
     public User() {
-        mUuid = UUID.randomUUID();
+        this(UUID.randomUUID());
+    }
+
+    public User(UUID uuid){
+        mUuid = uuid;
     }
     
     public String getFirstName() {

@@ -7,5 +7,7 @@
     <color name="tabTextColor">#FBFBFB</color>
     <color name="positiveButtonColor">#EF0A58</color>
     <color name="buttonColorAdd">#5ED4E3</color>
+    <color name="colorTextDialog">#0125F1</color>
+
 
 </resources>

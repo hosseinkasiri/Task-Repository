@@ -40,10 +40,5 @@
             android:src="@drawable/icon_negative"
             android:layout_margin="10dp"/>
 
-
     </LinearLayout>
-
-
-
-
 </FrameLayout>

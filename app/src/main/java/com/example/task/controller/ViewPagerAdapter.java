@@ -18,7 +18,6 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     private final List<TaskListMode> mFragmentModes = new ArrayList<>();
     private int mPosition;
 
-
     public ViewPagerAdapter(@NonNull FragmentManager fm) {
         super(fm);
     }
@@ -41,7 +40,6 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     public void addFragment(Fragment fragment , String title ){
-
         mFragments.add(fragment);
         mFragmentTitle.add(title);
     }
