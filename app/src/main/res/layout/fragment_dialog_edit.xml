@@ -56,5 +56,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:id="@+id/time_picker_button"/>
+
+        <CheckBox
+            android:id="@+id/dialog_done_check_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/done"/>
+
     </LinearLayout>
 </FrameLayout>

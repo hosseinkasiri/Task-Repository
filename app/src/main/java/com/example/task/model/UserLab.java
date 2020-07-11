@@ -83,6 +83,29 @@ public class UserLab {
         mDatabase.delete(TaskDbSchema.UserTable.NAME,whereClause,whereArgs);
     }
 
+    public User getFirstUser(){
+        String whereClause = TaskDbSchema.UserTable.UserCols.FIRST_ACTIVITY + " = ?";
+        String[] whereArgs = new String[]{"1"};
+        UserCursorWrapper cursor = queryUser(whereClause,whereArgs);
+        if (cursor.getCount() == 0)
+            return null;
+
+        try {
+            cursor.moveToFirst();
+            return cursor.getUser();
+
+        } finally {
+            cursor.close();
+        }
+    }
+
+    public void updateUser(User user){
+        ContentValues values = getContentValues(user);
+        String whereClause = TaskDbSchema.UserTable.UserCols.UUID + " = ?";
+        String[] whereArgs = new String[]{user.getUuid().toString()};
+        mDatabase.update(TaskDbSchema.UserTable.NAME,values,whereClause,whereArgs);
+    }
+
     public ContentValues getContentValues(User user){
         ContentValues values = new ContentValues();
         values.put(TaskDbSchema.UserTable.UserCols.FIRST_NAME,user.getFirstName());
@@ -90,6 +113,8 @@ public class UserLab {
         values.put(TaskDbSchema.UserTable.UserCols.USERNAME,user.getUsername());
         values.put(TaskDbSchema.UserTable.UserCols.PASSWORD,user.getPassword());
         values.put(TaskDbSchema.UserTable.UserCols.UUID,user.getUuid().toString());
+        values.put(TaskDbSchema.UserTable.UserCols.GUEST,user.isGuest());
+        values.put(TaskDbSchema.UserTable.UserCols.FIRST_ACTIVITY,user.isFirstActivity());
         return values;
     }
 }

@@ -24,16 +24,17 @@ public class DialogTimePickerFragment extends DialogFragment {
 
     private TimePicker mTimePicker;
     private Task mTask;
+    private DialogInterface.OnDismissListener mOnDismissListener;
     private static final String ARG_TASK_TIME = "com.example.task_Task";
 
-    public DialogTimePickerFragment() {
+    public DialogTimePickerFragment(DialogInterface.OnDismissListener listener) {
+        mOnDismissListener = listener;
     }
 
-    public static DialogTimePickerFragment newInstance(Task task) {
-
+    public static DialogTimePickerFragment newInstance(Task task, DialogInterface.OnDismissListener listener) {
         Bundle args = new Bundle();
         args.putSerializable(ARG_TASK_TIME,task);
-        DialogTimePickerFragment fragment = new DialogTimePickerFragment();
+        DialogTimePickerFragment fragment = new DialogTimePickerFragment(listener);
         fragment.setArguments(args);
         return fragment;
     }
@@ -41,7 +42,6 @@ public class DialogTimePickerFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_dialog_time_picker,null);
         mTimePicker = view.findViewById(R.id.time_time_picker_dialog);
         mTask = (Task) getArguments().getSerializable(ARG_TASK_TIME);
@@ -54,13 +54,22 @@ public class DialogTimePickerFragment extends DialogFragment {
                         int hour = mTimePicker.getHour();
                         int minute = mTimePicker.getMinute();
                         Calendar calendar = Calendar.getInstance();
+                        calendar.setTime(mTask.getDate());
                         calendar.set(calendar.HOUR_OF_DAY,hour);
                         calendar.set(calendar.MINUTE,minute);
                         Date date = calendar.getTime();
-                        TaskLab.getInstance(getActivity()).getTask(mTask.getId()).setDate(date);
+                        mTask.setDate(date);
+                        TaskLab.getInstance(getActivity()).updateTask(mTask);
                     }
                 })
                 .create();
+    }
+
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+        if (mOnDismissListener != null)
+            mOnDismissListener.onDismiss(dialog);
     }
 
     private void setTimeTimePicker() {

@@ -19,6 +19,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.example.task.R;
+import com.example.task.helper.UpdatableUI;
 import com.example.task.model.Task;
 import com.example.task.model.TaskLab;
 import com.example.task.model.TaskListMode;
@@ -29,12 +30,13 @@ import java.util.UUID;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TaskListFragment extends Fragment {
+public class TaskListFragment extends Fragment implements UpdatableUI {
 
     private static final String TRASH_TAG = "com.example.task.controller_trash", ADD_TAG = "add tag dialog";
     private static final String ARGS_TASK_MODE = " package com.example.task.task_task mode";
     private static final String USER_ID = "com.example.task.controller_userId";
     private static final String LOG_OUT = "com.example.task.controller_logOut";
+    private DialogInterface.OnDismissListener mListener;
     private ImageButton mAddButton;
     private ImageView mImageView;
     private RecyclerView mRecyclerView;
@@ -67,17 +69,18 @@ public class TaskListFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_task_list, container, false);
         mUserId = (UUID) getArguments().getSerializable(USER_ID);
+        mListener = new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                updateUi();
+            }
+        };
 
         findViews(view);
         mAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddTaskFragment addFragment = AddTaskFragment.newInstance(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        updateUi();
-                    }
-                }, mUserId);
+                AddTaskFragment addFragment = AddTaskFragment.newInstance(mListener, mUserId);
                 addFragment.show(getFragmentManager(), ADD_TAG);
             }
         });
@@ -97,12 +100,7 @@ public class TaskListFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.trash_menu:
-                TrashDialogFragment trashDialogFragment = TrashDialogFragment.newInstance(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        updateUi();
-                    }
-                },mUserId);
+                TrashDialogFragment trashDialogFragment = TrashDialogFragment.newInstance(mListener, mUserId);
                 trashDialogFragment.show(getFragmentManager(), TRASH_TAG);
                 break;
 
@@ -118,7 +116,7 @@ public class TaskListFragment extends Fragment {
 
     public void updateUi() {
         mTasks =  TaskLab.getInstance(getActivity()).getTasks(mListMode,mUserId);
-        mAdapter = new TaskAdapter(getActivity(), mTasks);
+        mAdapter = new TaskAdapter(getActivity(), mTasks,mListener);
         mRecyclerView.setAdapter(mAdapter);
         if (mTasks.size() != 0){
             mImageView.setVisibility(View.GONE);

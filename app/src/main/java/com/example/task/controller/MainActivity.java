@@ -1,6 +1,7 @@
 package com.example.task.controller;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
@@ -11,12 +12,14 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.example.task.R;
+import com.example.task.helper.UpdatableUI;
 import com.example.task.model.Task;
 import com.example.task.model.TaskLab;
 import com.example.task.model.TaskListMode;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,10 +28,8 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
     private ViewPagerAdapter adapter;
-    private TaskListMode mAll = TaskListMode.all;
-    private TaskListMode mDone = TaskListMode.done;
-    private TaskListMode mUnDone = TaskListMode.unDone;
     private UUID mUserId;
+    private ArrayList<UpdatableUI> fragments;
 
     public static Intent newIntent(Context context, UUID userId){
         Intent intent = new Intent(context , MainActivity.class);
@@ -42,12 +43,30 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         findViews();
         mUserId = (UUID) getIntent().getSerializableExtra(USER_ID);
+        fragments = new ArrayList<>();
+        fragments.add(TaskListFragment.newInstance(TaskListMode.all,mUserId));
+        fragments.add(TaskListFragment.newInstance(TaskListMode.done,mUserId));
+        fragments.add(TaskListFragment.newInstance(TaskListMode.unDone,mUserId));
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(TaskListFragment.newInstance(mAll,mUserId) , "All" );
-        adapter.addFragment(TaskListFragment.newInstance(mDone,mUserId) , "Done");
-        adapter.addFragment(TaskListFragment.newInstance(mUnDone,mUserId) , "UnDone");
+        adapter.addFragment((Fragment) fragments.get(0) , "All" );
+        adapter.addFragment((Fragment) fragments.get(1) , "Done");
+        adapter.addFragment((Fragment) fragments.get(2), "UnDone");
         mViewPager.setAdapter(adapter);
         mTabLayout.setupWithViewPager(mViewPager);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+              fragments.get(position).updateUi();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
     }
     
     private void findViews() {

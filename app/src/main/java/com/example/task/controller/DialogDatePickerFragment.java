@@ -29,17 +29,18 @@ public class DialogDatePickerFragment extends DialogFragment {
     private DialogInterface.OnDismissListener mOnDismissListener;
     private static final String ARG_TASK = "com.example.task_Task";
 
-    public DialogDatePickerFragment() {
+    public DialogDatePickerFragment(DialogInterface.OnDismissListener listener) {
+        mOnDismissListener = listener;
     }
 
-    public static DialogDatePickerFragment newInstance(Task task) {
-
+    public static DialogDatePickerFragment newInstance(Task task, DialogInterface.OnDismissListener listener) {
         Bundle args = new Bundle();
         args.putSerializable(ARG_TASK,task);
-        DialogDatePickerFragment fragment = new DialogDatePickerFragment();
+        DialogDatePickerFragment fragment = new DialogDatePickerFragment(listener);
         fragment.setArguments(args);
         return fragment;
     }
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -55,8 +56,19 @@ public class DialogDatePickerFragment extends DialogFragment {
                         int year = mDatePicker.getYear();
                         int month = mDatePicker.getMonth();
                         int day = mDatePicker.getDayOfMonth();
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTime(mTask.getDate());
+                        int hour = calendar.get(Calendar.HOUR);
+                        int minute = calendar.get(Calendar.MINUTE);
                         Date date = new GregorianCalendar(year,month,day).getTime();
-                        TaskLab.getInstance(getActivity()).getTask(mTask.getId()).setDate(date);
+                        Calendar calendar1 = Calendar.getInstance();
+                        calendar1.setTime(date);
+                        calendar1.set(calendar.HOUR_OF_DAY,hour);
+                        calendar1.set(calendar.MINUTE,minute);
+                        Date date1 = calendar1.getTime();
+                        mTask.setDate(date1);
+                        TaskLab.getInstance(getActivity()).updateTask(mTask);
+
                     }
                 })
                 .create();
@@ -65,7 +77,7 @@ public class DialogDatePickerFragment extends DialogFragment {
     @Override
     public void onDismiss(@NonNull DialogInterface dialog) {
         super.onDismiss(dialog);
-        if (mOnDismissListener!=null)
+        if (mOnDismissListener != null)
             mOnDismissListener.onDismiss(dialog);
     }
 

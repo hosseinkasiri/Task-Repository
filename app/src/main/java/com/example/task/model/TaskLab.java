@@ -63,13 +63,13 @@ public class TaskLab {
         }
         switch (taskListMode){
             case all:
-                break;
+                return tasks;
             case done:
                 tasks.removeIf(T -> !T.isDone());
-                break;
+                return tasks;
             case unDone:
                 tasks.removeIf(Task::isDone);
-                break;
+                return tasks;
         }
         return tasks;
     }
@@ -103,7 +103,7 @@ public class TaskLab {
     }
 
     public void removeTask(UUID id){
-        String whereClause = TaskDbSchema.TaskTable.TaskCols.UUID + " = ? " ;
+        String whereClause = TaskDbSchema.TaskTable.TaskCols.UUID + " = ?" ;
         mDatabase.delete(TaskDbSchema.TaskTable.NAME,whereClause,new String[]{id.toString()});
     }
 
@@ -113,12 +113,19 @@ public class TaskLab {
         mDatabase.delete(TaskDbSchema.TaskTable.NAME,whereClause,whereArgs);
     }
 
+    public void updateTask(Task task){
+        ContentValues values = getContentValues(task);
+        String whereClause = TaskDbSchema.TaskTable.TaskCols.UUID + " = ?";
+        String[] whereArgs = new String[]{task.getId().toString()};
+        mDatabase.update(TaskDbSchema.TaskTable.NAME,values,whereClause,whereArgs);
+}
+
     public ContentValues getContentValues(Task task){
         ContentValues values = new ContentValues();
         values.put(TaskDbSchema.TaskTable.TaskCols.UUID,task.getId().toString());
         values.put(TaskDbSchema.TaskTable.TaskCols.TITLE,task.getTitle());
         values.put(TaskDbSchema.TaskTable.TaskCols.DESCRIPTION,task.getDescription());
-        values.put(TaskDbSchema.TaskTable.TaskCols.DATE,task.getDate().toString());
+        values.put(TaskDbSchema.TaskTable.TaskCols.DATE,task.getDate().getTime());
         values.put(TaskDbSchema.TaskTable.TaskCols.DONE,task.isDone());
         values.put(TaskDbSchema.TaskTable.TaskCols.USER_ID,task.getUserId().toString());
         return values;

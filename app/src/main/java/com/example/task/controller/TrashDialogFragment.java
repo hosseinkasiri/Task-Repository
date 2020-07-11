@@ -15,7 +15,6 @@ public class TrashDialogFragment extends DialogFragment {
 
     private static final String USER_ID = "com.example.task.controller_userId";
     private UUID mUserId;
-
     private DialogInterface.OnDismissListener mOnDismissListener;
 
     public TrashDialogFragment(DialogInterface.OnDismissListener listener) {

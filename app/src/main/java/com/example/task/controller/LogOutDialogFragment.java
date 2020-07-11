@@ -26,7 +26,6 @@ public class LogOutDialogFragment extends DialogFragment {
     private User mUser;
 
     public static LogOutDialogFragment newInstance(UUID userId) {
-
         Bundle args = new Bundle();
         args.putSerializable(USER_ID,userId);
         LogOutDialogFragment fragment = new LogOutDialogFragment();
@@ -49,7 +48,10 @@ public class LogOutDialogFragment extends DialogFragment {
                             TaskLab.getInstance(getActivity()).clearTasks(mUserId);
                             UserLab.getInstance(getActivity()).deleteUser(mUserId);
                         }
-
+                        else {
+                            mUser.setFirstActivity(false);
+                            UserLab.getInstance(getActivity()).updateUser(mUser);
+                        }
                         Intent intent = LoginPageActivity.newIntent(getActivity());
                         startActivity(intent);
                         getActivity().finish();

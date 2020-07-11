@@ -12,7 +12,10 @@ import androidx.fragment.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.task.R;
@@ -28,17 +31,19 @@ public class DialogEditFragment extends DialogFragment {
     private TextView mTitleText;
     private EditText mDescriptionText;
     private Button mDateButton,mTimeButton;
+    private CheckBox mDoneCheckBox;
     private Task mTask;
     private DialogInterface.OnDismissListener mOnDismissListener;
 
-    public DialogEditFragment() {
+    public DialogEditFragment(DialogInterface.OnDismissListener listener) {
+        mOnDismissListener = listener;
     }
 
-    public static DialogEditFragment newInstance(Task task) {
+    public static DialogEditFragment newInstance(Task task, DialogInterface.OnDismissListener listener) {
 
         Bundle args = new Bundle();
         args.putSerializable(ARG_TASK,task);
-        DialogEditFragment fragment = new DialogEditFragment();
+        DialogEditFragment fragment = new DialogEditFragment(listener);
         fragment.setArguments(args);
         return fragment;
     }
@@ -52,23 +57,33 @@ public class DialogEditFragment extends DialogFragment {
         mDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogDatePickerFragment datePickerFragment = DialogDatePickerFragment.newInstance(mTask);
+                DialogInterface.OnDismissListener dismissListener =  new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        setTextAttribute();
+                    }
+                };
+                DialogDatePickerFragment datePickerFragment = DialogDatePickerFragment.newInstance(mTask,dismissListener);
                 datePickerFragment.show(getFragmentManager(),DATE_TAG);
+
             }
         });
         mTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogTimePickerFragment timePickerFragment = DialogTimePickerFragment.newInstance(mTask);
+                DialogTimePickerFragment timePickerFragment = DialogTimePickerFragment.newInstance(mTask,mOnDismissListener);
                 timePickerFragment.show(getFragmentManager(),TIME_TAG);
             }
         });
+
         return new AlertDialog.Builder(getActivity())
                 .setView(view)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        TaskLab.getInstance(getActivity()).getTask(mTask.getId()).setDescription(mDescriptionText.getText().toString());
+                        mTask.setDescription(mDescriptionText.getText().toString());
+                        mTask.setDone(mDoneCheckBox.isChecked());
+                        TaskLab.getInstance(getActivity()).updateTask(mTask);
                     }
                 })
                 .setNegativeButton(android.R.string.cancel,null)
@@ -90,6 +105,7 @@ public class DialogEditFragment extends DialogFragment {
         mDateButton.setText(dateFormat.format(mTask.getDate()));
         DateFormat timeFormat = new SimpleDateFormat("HH-mm-ss");
         mTimeButton.setText(timeFormat.format(mTask.getDate()));
+        mDoneCheckBox.setChecked(mTask.isDone());
     }
 
     private void findViews(View view) {
@@ -97,5 +113,6 @@ public class DialogEditFragment extends DialogFragment {
         mDescriptionText = view.findViewById(R.id.dialog_edit_description);
         mDateButton = view.findViewById(R.id.date_picker_button);
         mTimeButton = view.findViewById(R.id.time_picker_button);
+        mDoneCheckBox = view.findViewById(R.id.dialog_done_check_box);
     }
 }

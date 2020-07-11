@@ -20,7 +20,8 @@ public class TaskBaseHelper extends SQLiteOpenHelper {
                 TaskDbSchema.UserTable.UserCols.LAST_NAME + ", " +
                 TaskDbSchema.UserTable.UserCols.USERNAME + ", " +
                 TaskDbSchema.UserTable.UserCols.PASSWORD + ", " +
-                TaskDbSchema.UserTable.UserCols.GUEST +
+                TaskDbSchema.UserTable.UserCols.GUEST + ", "  +
+                TaskDbSchema.UserTable.UserCols.FIRST_ACTIVITY +
                 ")"
         );
 
@@ -35,7 +36,6 @@ public class TaskBaseHelper extends SQLiteOpenHelper {
                 ")"
         );
     }
-
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
