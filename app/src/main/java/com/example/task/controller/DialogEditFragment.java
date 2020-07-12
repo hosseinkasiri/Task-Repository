@@ -71,7 +71,14 @@ public class DialogEditFragment extends DialogFragment {
         mTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogTimePickerFragment timePickerFragment = DialogTimePickerFragment.newInstance(mTask,mOnDismissListener);
+                DialogInterface.OnDismissListener dismissListener = new
+                        DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialog) {
+                                setTextAttribute();
+                            }
+                        };
+                DialogTimePickerFragment timePickerFragment = DialogTimePickerFragment.newInstance(mTask,dismissListener);
                 timePickerFragment.show(getFragmentManager(),TIME_TAG);
             }
         });
