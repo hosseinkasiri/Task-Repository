@@ -60,7 +60,6 @@ public class LoginPageFragment extends Fragment {
             public void onClick(View v) {
                 User user = new User();
                 user.setGuest(true);
-                user.setFirstActivity(true);
                 UserLab.getInstance(getActivity()).addUser(user);
                 Intent intent = MainActivity.newIntent(getActivity(),user.getUuid());
                 startActivity(intent);
@@ -71,10 +70,7 @@ public class LoginPageFragment extends Fragment {
             @Override
             public void onClick(View v) {
                mUser = UserLab.getInstance(getActivity()).getUser(mUsername.getText().toString(),mPassword.getText().toString());
-
                if (mUser != null){
-                   mUser.setFirstActivity(true);
-                   UserLab.getInstance(getActivity()).updateUser(mUser);
                    Intent intent = MainActivity.newIntent(getActivity(),mUser.getUuid());
                    startActivity(intent);
                    getActivity().finish();

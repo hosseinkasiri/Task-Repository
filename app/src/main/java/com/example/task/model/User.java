@@ -10,7 +10,6 @@ public class User {
     private String mUsername;
     private String mPassword;
     private boolean mGuest;
-    private boolean mFirstActivity;
 
     public User() {
         this(UUID.randomUUID());
@@ -19,7 +18,6 @@ public class User {
     public User(UUID uuid){
         mUuid = uuid;
         mGuest = false;
-        mFirstActivity = false;
     }
     
     public String getFirstName() {
@@ -64,13 +62,5 @@ public class User {
 
     public void setGuest(boolean guest) {
         mGuest = guest;
-    }
-
-    public boolean isFirstActivity() {
-        return mFirstActivity;
-    }
-
-    public void setFirstActivity(boolean firstActivity) {
-        mFirstActivity = firstActivity;
     }
 }

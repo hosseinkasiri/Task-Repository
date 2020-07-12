@@ -23,6 +23,8 @@ import com.example.task.helper.UpdatableUI;
 import com.example.task.model.Task;
 import com.example.task.model.TaskLab;
 import com.example.task.model.TaskListMode;
+import com.example.task.model.User;
+import com.example.task.model.UserLab;
 
 import java.util.List;
 import java.util.UUID;
@@ -44,6 +46,7 @@ public class TaskListFragment extends Fragment implements UpdatableUI {
     private List<Task> mTasks;
     private TaskListMode mListMode;
     private UUID mUserId;
+    private User mUser;
 
     public TaskListFragment() {
     }
@@ -105,8 +108,15 @@ public class TaskListFragment extends Fragment implements UpdatableUI {
                 break;
 
             case R.id.log_out_menu:
-                LogOutDialogFragment logOutDialogFragment = LogOutDialogFragment.newInstance(mUserId);
-                logOutDialogFragment.show(getFragmentManager(),LOG_OUT);
+                mUser = UserLab.getInstance(getActivity()).getUserById(mUserId);
+                if (mUser.isGuest()) {
+                    LogOutGuestDialogFragment logOutDialogFragment = LogOutGuestDialogFragment.newInstance(mUserId);
+                    logOutDialogFragment.show(getFragmentManager(), LOG_OUT);
+                }
+                else {
+                    LogOutDialogFragment logOutDialogFragment = LogOutDialogFragment.newInstance();
+                    logOutDialogFragment.show(getFragmentManager(),LOG_OUT);
+                }
                 break;
             default:
                 return super.onOptionsItemSelected(item);
