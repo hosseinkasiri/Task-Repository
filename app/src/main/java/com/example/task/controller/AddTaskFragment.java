@@ -34,16 +34,16 @@ public class AddTaskFragment extends DialogFragment{
     private EditText mTitleText;
     private TextView mTitleTextView;
     private DialogInterface.OnDismissListener mOnDismissListener;
-    private UUID mUserId;
+    private Long mUserId;
 
     public AddTaskFragment(DialogInterface.OnDismissListener listener) {
         // Required empty public constructor
         mOnDismissListener = listener;
     }
 
-    public static AddTaskFragment newInstance(DialogInterface.OnDismissListener listener, UUID userId) {
+    public static AddTaskFragment newInstance(DialogInterface.OnDismissListener listener, Long userId) {
         Bundle args = new Bundle();
-        args.putSerializable(USER_ID,userId);
+        args.putLong(USER_ID,userId);
         AddTaskFragment fragment = new AddTaskFragment(listener);
         fragment.setArguments(args);
         return fragment;
@@ -55,7 +55,7 @@ public class AddTaskFragment extends DialogFragment{
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_add,null);
         findViews(view);
         setTitleText();
-        mUserId = (UUID) getArguments().getSerializable(USER_ID);
+        mUserId = (Long) getArguments().getSerializable(USER_ID);
         mTask = new Task();
         DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
         mDateText.setText(dateFormat.format(mTask.getDate()));
@@ -75,7 +75,7 @@ public class AddTaskFragment extends DialogFragment{
                             task.setDescription(mDescriptionText.getText().toString());
                             task.setTitle(mTitleText.getText().toString());
                             task.setUserId(mUserId);
-                            TaskLab.getInstance(getActivity()).addTask(task);
+                            TaskLab.getInstance().addTask(task);
                         }
                     }
                 })

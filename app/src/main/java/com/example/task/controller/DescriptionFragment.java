@@ -29,7 +29,7 @@ public class DescriptionFragment extends Fragment {
 
     public static DescriptionFragment newInstance(Task task) {
         Bundle args = new Bundle();
-        args.putSerializable(mTASK_ID , task);
+       // args.putSerializable(mTASK_ID , task);
         DescriptionFragment fragment = new DescriptionFragment();
         fragment.setArguments(args);
         return fragment;
@@ -43,7 +43,7 @@ public class DescriptionFragment extends Fragment {
         mTask = (Task) getArguments().getSerializable(mTASK_ID);
         mDescription.setText(mTask.getDescription());
         mDate.setText(mTask.getDate().toString());
-        mDoneCheckBox.setChecked(mTask.isDone());
+        mDoneCheckBox.setChecked(mTask.getDone());
         enable(false);
 
         mEditButton.setOnClickListener(new View.OnClickListener() {
@@ -57,21 +57,21 @@ public class DescriptionFragment extends Fragment {
         mDoneCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                TaskLab.getInstance(getActivity()).getTask(mTask.getId()).setDone(isChecked);
+                //TaskLab.getInstance(getActivity()).getTask(mTask.getId()).setDone(isChecked);
                // mTask.setDone(isChecked);
             }
         });
         mDoneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TaskLab.getInstance(getActivity()).getTask(mTask.getId()).setDescription(mDescription.getText().toString());
+               // TaskLab.getInstance(getActivity()).getTask(mTask.getId()).setDescription(mDescription.getText().toString());
                 getActivity().finish();
             }
         });
         mDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TaskLab.getInstance(getActivity()).removeTask(mTask.getId());
+                TaskLab.getInstance().removeTask(mTask.getId());
                 getActivity().finish();
             }
         });

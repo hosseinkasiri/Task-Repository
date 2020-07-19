@@ -14,7 +14,7 @@ public class SignUpActivity extends SingleFragmentActivity {
 
     private static final String USER_ID = "com.example.task.controller_userId";
 
-    public static Intent newIntent(Context context, UUID userId){
+    public static Intent newIntent(Context context,Long userId){
         Intent intent = new Intent(context,SignUpActivity.class);
         intent.putExtra(USER_ID,userId);
         return intent;
@@ -22,7 +22,7 @@ public class SignUpActivity extends SingleFragmentActivity {
 
     @Override
     public Fragment mFragment() {
-        UUID UserId = (UUID) getIntent().getSerializableExtra(USER_ID);
-        return SignUpFragment.newInstance(UserId);
+        Long userId = (Long) getIntent().getSerializableExtra(USER_ID);
+        return SignUpFragment.newInstance(userId);
     }
 }

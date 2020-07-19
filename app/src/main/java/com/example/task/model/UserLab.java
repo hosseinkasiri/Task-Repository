@@ -1,103 +1,52 @@
 package com.example.task.model;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
-import com.example.task.database.TaskBaseHelper;
-import com.example.task.database.TaskDbSchema;
-import com.example.task.database.UserCursorWrapper;
+import com.example.task.database.App;
 
-import java.util.UUID;
+import org.greenrobot.greendao.query.Query;
+
+import java.util.List;
 
 public class UserLab {
     private static UserLab mInstance;
-    private SQLiteDatabase mDatabase;
-    private Context mContext;
+    private DaoSession mSession = (App.getApp()).getSession();
+    private UserDao mUserDao = mSession.getUserDao();
 
-    private UserLab(Context context){
-        mContext = context.getApplicationContext();
-        mDatabase = new TaskBaseHelper(mContext).getWritableDatabase();
+    private UserLab(){
     }
 
-    public static UserLab getInstance(Context context) {
+    public static UserLab getInstance() {
         if (mInstance == null)
-            mInstance = new UserLab(context);
+            mInstance = new UserLab();
 
         return mInstance;
     }
 
     public void addUser(User user){
-        ContentValues values = getContentValues(user);
-        mDatabase.insert(TaskDbSchema.UserTable.NAME,null,values);
+        mUserDao.insert(user);
     }
 
     public User getUser(String username , String password){
-        String whereClause = TaskDbSchema.UserTable.UserCols.USERNAME + " = ? AND password = ? ";
-        String [] whereArgs = new String[]{username,password};
-        UserCursorWrapper cursor = queryUser(whereClause, whereArgs);
-        if (cursor.getCount() == 0)
-            return null;
-
-        try {
-            cursor.moveToFirst();
-           return cursor.getUser();
-
-        } finally {
-            cursor.close();
-        }
+      User user = mUserDao.queryBuilder()
+              .where(UserDao.Properties.Username.eq(username))
+              .where(UserDao.Properties.Password.eq(password))
+              .unique();
+      return user;
     }
 
-    public User getUserById(UUID userId){
-        String whereClause = TaskDbSchema.UserTable.UserCols.UUID + " = ? ";
-        String[] whereArgs = new String[]{userId.toString()};
-        UserCursorWrapper cursor = queryUser(whereClause, whereArgs);
-        if (cursor.getCount() == 0)
-            return null;
-
-        try {
-            cursor.moveToFirst();
-            return cursor.getUser();
-
-        } finally {
-            cursor.close();
-        }
+    public User getUserById(Long userId){
+       User user = mUserDao.queryBuilder()
+               .where(UserDao.Properties.Uuid.eq(userId))
+               .unique();
+      return user;
     }
 
-    private UserCursorWrapper queryUser(String whereClause, String[] whereArgs) {
-        Cursor cursor = mDatabase.query(
-                    TaskDbSchema.UserTable.NAME,
-                    null,
-                    whereClause,
-                    whereArgs,
-                    null,null,
-                    null
-            );
-        return new UserCursorWrapper(cursor);
-    }
-
-    public void deleteUser(UUID userId){
-        String whereClause = TaskDbSchema.UserTable.UserCols.UUID + " = ?";
-        String[] whereArgs = new String[]{userId.toString()};
-        mDatabase.delete(TaskDbSchema.UserTable.NAME,whereClause,whereArgs);
+    public void deleteUser(Long userId){
+        mUserDao.delete(getUserById(userId));
     }
 
     public void updateUser(User user){
-        ContentValues values = getContentValues(user);
-        String whereClause = TaskDbSchema.UserTable.UserCols.UUID + " = ?";
-        String[] whereArgs = new String[]{user.getUuid().toString()};
-        mDatabase.update(TaskDbSchema.UserTable.NAME,values,whereClause,whereArgs);
-    }
-
-    public ContentValues getContentValues(User user){
-        ContentValues values = new ContentValues();
-        values.put(TaskDbSchema.UserTable.UserCols.FIRST_NAME,user.getFirstName());
-        values.put(TaskDbSchema.UserTable.UserCols.LAST_NAME,user.getLastName());
-        values.put(TaskDbSchema.UserTable.UserCols.USERNAME,user.getUsername());
-        values.put(TaskDbSchema.UserTable.UserCols.PASSWORD,user.getPassword());
-        values.put(TaskDbSchema.UserTable.UserCols.UUID,user.getUuid().toString());
-        values.put(TaskDbSchema.UserTable.UserCols.GUEST,user.isGuest());
-        return values;
+        mUserDao.update(user);
     }
 }

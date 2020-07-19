@@ -13,9 +13,6 @@ public class AddActivity extends SingleFragmentActivity {
 
         return intent;
     }
-
-
-
     @Override
     public Fragment mFragment() {
         return null;

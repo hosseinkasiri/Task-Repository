@@ -16,11 +16,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 class TaskHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    private static final String DESCRIPTION_TAG = "description tag",EDIT_TAG = "edit tag";
     private TextView mFirstText , mTitleText , mDateText;
     private Task mTask;
     private ImageView mImageEdit;
     private DialogInterface.OnDismissListener mListener;
-    private static final String DESCRIPTION_TAG = "description tag",EDIT_TAG = "edit tag";
 
     public TaskHolder(View itemView, DialogInterface.OnDismissListener listener) {
         super(itemView);

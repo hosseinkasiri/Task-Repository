@@ -1,5 +1,6 @@
 package com.example.task.controller;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -23,12 +24,14 @@ public class SignUpFragment extends Fragment {
     private static final String USER_ID = "com.example.task.controller_userId";
     private EditText mFirstName,mLastName,mUsername,mPassword;
     private Button mDoneButton,mCancelButton;
-    private UUID mUserId;
+    private Long mUserId;
+    private User mUser;
+    private boolean mGuest;
 
-    public static SignUpFragment newInstance(UUID userId) {
+    public static SignUpFragment newInstance(Long userId) {
 
         Bundle args = new Bundle();
-        args.putSerializable(USER_ID,userId);
+        args.putLong(USER_ID,userId);
         SignUpFragment fragment = new SignUpFragment();
         fragment.setArguments(args);
         return fragment;
@@ -38,28 +41,37 @@ public class SignUpFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sign_up,container,false);
         findViews(view);
-        mUserId = (UUID) getArguments().getSerializable(USER_ID);
+        mUserId = (Long) getArguments().getSerializable(USER_ID);
+        mUser = UserLab.getInstance().getUserById(mUserId);
+        mGuest = mUser.getGuest();
         mDoneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserLab.getInstance(getActivity()).deleteUser(mUserId);
-                User user = new User(mUserId);
-                user.setFirstName(mFirstName.getText().toString());
-                user.setLastName(mLastName.getText().toString());
-                user.setUsername(mUsername.getText().toString());
-                user.setPassword(mPassword.getText().toString());
-
-                UserLab.getInstance(getActivity()).addUser(user);
-                getActivity().finish();
+                mUser.setFirstName(mFirstName.getText().toString());
+                mUser.setLastName(mLastName.getText().toString());
+                mUser.setUsername(mUsername.getText().toString());
+                mUser.setPassword(mPassword.getText().toString());
+                mUser.setGuest(false);
+                UserLab.getInstance().updateUser(mUser);
+                if (mGuest) {
+                    Intent intent = LoginPageActivity.newIntent(getActivity());
+                    startActivity(intent);
+                    getActivity().finish();
+                }
+                else {
+                    Intent intent = MainActivity.newIntent(getActivity(),mUserId);
+                    startActivity(intent);
+                    getActivity().finish();
+                }
             }
         });
         mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                UserLab.getInstance().deleteUser(mUserId);
                 getActivity().finish();
             }
         });
-
         return view;
     }
 

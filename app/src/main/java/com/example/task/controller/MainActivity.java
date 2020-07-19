@@ -28,10 +28,10 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
     private ViewPagerAdapter adapter;
-    private UUID mUserId;
+    private Long mUserId;
     private ArrayList<UpdatableUI> fragments;
 
-    public static Intent newIntent(Context context, UUID userId){
+    public static Intent newIntent(Context context, Long userId){
         Intent intent = new Intent(context , MainActivity.class);
         intent.putExtra(USER_ID,userId);
         return intent;
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         findViews();
-        mUserId = (UUID) getIntent().getSerializableExtra(USER_ID);
+        mUserId = (Long) getIntent().getSerializableExtra(USER_ID);
         fragments = new ArrayList<>();
         fragments.add(TaskListFragment.newInstance(TaskListMode.all,mUserId));
         fragments.add(TaskListFragment.newInstance(TaskListMode.done,mUserId));

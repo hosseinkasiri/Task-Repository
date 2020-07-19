@@ -45,16 +45,16 @@ public class TaskListFragment extends Fragment implements UpdatableUI {
     private TaskAdapter mAdapter;
     private List<Task> mTasks;
     private TaskListMode mListMode;
-    private UUID mUserId;
+    private Long mUserId;
     private User mUser;
 
     public TaskListFragment() {
     }
 
-    public static TaskListFragment newInstance(TaskListMode listMode, UUID userId) {
+    public static TaskListFragment newInstance(TaskListMode listMode, Long userId) {
         Bundle args = new Bundle();
         args.putSerializable(ARGS_TASK_MODE, listMode);
-        args.putSerializable(USER_ID, userId);
+        args.putLong(USER_ID, userId);
         TaskListFragment fragment = new TaskListFragment();
         fragment.setArguments(args);
         return fragment;
@@ -71,7 +71,7 @@ public class TaskListFragment extends Fragment implements UpdatableUI {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_task_list, container, false);
-        mUserId = (UUID) getArguments().getSerializable(USER_ID);
+        mUserId = (Long) getArguments().getSerializable(USER_ID);
         mListener = new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
@@ -108,8 +108,8 @@ public class TaskListFragment extends Fragment implements UpdatableUI {
                 break;
 
             case R.id.log_out_menu:
-                mUser = UserLab.getInstance(getActivity()).getUserById(mUserId);
-                if (mUser.isGuest()) {
+                mUser = UserLab.getInstance().getUserById(mUserId);
+                if (mUser.getGuest()) {
                     LogOutGuestDialogFragment logOutDialogFragment = LogOutGuestDialogFragment.newInstance(mUserId);
                     logOutDialogFragment.show(getFragmentManager(), LOG_OUT);
                 }
@@ -125,7 +125,7 @@ public class TaskListFragment extends Fragment implements UpdatableUI {
     }
 
     public void updateUi() {
-        mTasks =  TaskLab.getInstance(getActivity()).getTasks(mListMode,mUserId);
+        mTasks =  TaskLab.getInstance().getTasks(mListMode,mUserId);
         mAdapter = new TaskAdapter(getActivity(), mTasks,mListener);
         mRecyclerView.setAdapter(mAdapter);
         if (mTasks.size() != 0){

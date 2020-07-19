@@ -51,7 +51,10 @@ public class LoginPageFragment extends Fragment {
         mSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = SignUpActivity.newIntent(getActivity(), UUID.randomUUID());
+                User user = new User();
+                user.setGuest(false);
+                UserLab.getInstance().addUser(user);
+                Intent intent = SignUpActivity.newIntent(getActivity(),user.getUuid());
                 startActivity(intent);
             }
         });
@@ -60,7 +63,7 @@ public class LoginPageFragment extends Fragment {
             public void onClick(View v) {
                 User user = new User();
                 user.setGuest(true);
-                UserLab.getInstance(getActivity()).addUser(user);
+                UserLab.getInstance().addUser(user);
                 Intent intent = MainActivity.newIntent(getActivity(),user.getUuid());
                 startActivity(intent);
                 getActivity().finish();
@@ -69,7 +72,7 @@ public class LoginPageFragment extends Fragment {
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               mUser = UserLab.getInstance(getActivity()).getUser(mUsername.getText().toString(),mPassword.getText().toString());
+               mUser = UserLab.getInstance().getUser(mUsername.getText().toString(),mPassword.getText().toString());
                if (mUser != null){
                    Intent intent = MainActivity.newIntent(getActivity(),mUser.getUuid());
                    startActivity(intent);

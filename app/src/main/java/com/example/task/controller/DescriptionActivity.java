@@ -12,7 +12,7 @@ public class DescriptionActivity extends SingleFragmentActivity {
     private static final String mTASK_ID = "TASK ID";
     public static Intent newIntent(Context context , Task task){
         Intent intent = new Intent(context , DescriptionActivity.class);
-        intent.putExtra(mTASK_ID, task);
+        //intent.putExtra(mTASK_ID, task);
         return intent;
     }
 

@@ -90,7 +90,7 @@ public class DialogEditFragment extends DialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         mTask.setDescription(mDescriptionText.getText().toString());
                         mTask.setDone(mDoneCheckBox.isChecked());
-                        TaskLab.getInstance(getActivity()).updateTask(mTask);
+                        TaskLab.getInstance().updateTask(mTask);
                     }
                 })
                 .setNegativeButton(android.R.string.cancel,null)
@@ -112,7 +112,7 @@ public class DialogEditFragment extends DialogFragment {
         mDateButton.setText(dateFormat.format(mTask.getDate()));
         DateFormat timeFormat = new SimpleDateFormat("HH-mm-ss");
         mTimeButton.setText(timeFormat.format(mTask.getDate()));
-        mDoneCheckBox.setChecked(mTask.isDone());
+        mDoneCheckBox.setChecked(mTask.getDone());
     }
 
     private void findViews(View view) {

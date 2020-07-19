@@ -14,7 +14,6 @@ public class LoginPageActivity extends SingleFragmentActivity {
 
         return intent;
     }
-
     @Override
     public Fragment mFragment() {
         return LoginPageFragment.newInstance();

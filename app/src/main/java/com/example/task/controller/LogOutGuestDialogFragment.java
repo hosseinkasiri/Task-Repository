@@ -22,11 +22,11 @@ import java.util.UUID;
 public class LogOutGuestDialogFragment extends DialogFragment {
 
     private static final String USER_ID = "com.example.task.controller_userId";
-    private UUID mUserId;
+    private Long mUserId;
 
-    public static LogOutGuestDialogFragment newInstance(UUID userId) {
+    public static LogOutGuestDialogFragment newInstance(Long userId) {
         Bundle args = new Bundle();
-        args.putSerializable(USER_ID,userId);
+        args.putLong(USER_ID,userId);
         LogOutGuestDialogFragment fragment = new LogOutGuestDialogFragment();
         fragment.setArguments(args);
         return fragment;
@@ -36,14 +36,14 @@ public class LogOutGuestDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.log_out_layout,null);
-        mUserId = (UUID) getArguments().getSerializable(USER_ID);
+        mUserId = (Long) getArguments().getSerializable(USER_ID);
         return new AlertDialog.Builder(getActivity())
                 .setView(view)
                 .setPositiveButton("logout", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        TaskLab.getInstance(getActivity()).clearTasks(mUserId);
-                        UserLab.getInstance(getActivity()).deleteUser(mUserId);
+                        TaskLab.getInstance().clearTasks(mUserId);
+                        UserLab.getInstance().deleteUser(mUserId);
                         Intent intent = LoginPageActivity.newIntent(getActivity());
                         startActivity(intent);
                         getActivity().finish();
