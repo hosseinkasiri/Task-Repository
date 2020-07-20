@@ -6,14 +6,18 @@
         android:id="@+id/log_out_menu"
         android:title="@string/logout"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/icon_search"
+        android:title="Search"
+        app:showAsAction="always|collapseActionView"
+        app:actionViewClass="android.widget.SearchView" />
+
     <item
         android:id="@+id/trash_menu"
         android:icon="@drawable/icon_trash_white"
         android:title="@string/trash"
-        app:showAsAction="ifRoom|withText" />
-    <item
-        android:id="@+id/search_menu"
-        android:icon="@drawable/icon_search"
-        android:title="@string/search"
-        app:showAsAction="ifRoom|withText" />
+        app:showAsAction="always|withText" />
+
 </menu>

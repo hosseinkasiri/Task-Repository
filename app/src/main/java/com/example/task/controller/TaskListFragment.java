@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.SearchView;
 
 import com.example.task.R;
 import com.example.task.helper.UpdatableUI;
@@ -118,6 +119,22 @@ public class TaskListFragment extends Fragment implements UpdatableUI {
                     logOutDialogFragment.show(getFragmentManager(),LOG_OUT);
                 }
                 break;
+            case R.id.action_search:
+                SearchView searchView = (SearchView) item.getActionView();
+                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        mAdapter.getFilter().filter(newText);
+                        return false;
+                    }
+                });
+                break;
+
             default:
                 return super.onOptionsItemSelected(item);
         }

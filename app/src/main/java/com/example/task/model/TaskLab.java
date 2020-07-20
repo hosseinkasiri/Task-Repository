@@ -42,14 +42,20 @@ public class TaskLab {
                 tasks.removeIf(Task::getDone);
                 return tasks;
         }
-       return tasks;
+        return tasks;
     }
 
     public Task getTask(Long id){
-        Task task = mTaskDao.queryBuilder()
+        return mTaskDao.queryBuilder()
                 .where(TaskDao.Properties.Id.eq(id))
                 .unique();
-        return task;
+
+    }
+
+    public Task getTaskWithTitle(String titleTask){
+        return mTaskDao.queryBuilder()
+                .where(TaskDao.Properties.Title.eq(titleTask))
+                .unique();
     }
 
     public void removeTask(Long id){
