@@ -18,5 +18,17 @@
     <string name="log_out2">if you logOut your tasks is destroy !</string>
     <string name="log_out3">if you want do`nt destroy your tasks you should sign up</string>
     <string name="done">Done</string>
+    <string name="share_task">Share task :</string>
+    <string name="share_task_text">%1$s
+        with description :
+        %2$s
+        and Date :
+        %3$s
+        and time :
+        %4$s
+        and %5$s
+    </string>
+    <string name="is_done">is Done</string>
+    <string name="is_not_done">It`s not Done</string>
 
 </resources>

@@ -3,6 +3,7 @@ package com.example.task.controller;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -31,6 +33,7 @@ public class DialogEditFragment extends DialogFragment {
     private TextView mTitleText;
     private EditText mDescriptionText;
     private Button mDateButton,mTimeButton;
+    private ImageButton mShareButton;
     private CheckBox mDoneCheckBox;
     private Task mTask;
     private DialogInterface.OnDismissListener mOnDismissListener;
@@ -82,6 +85,16 @@ public class DialogEditFragment extends DialogFragment {
                 timePickerFragment.show(getFragmentManager(),TIME_TAG);
             }
         });
+        mShareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.putExtra(Intent.EXTRA_TEXT,getTextStringTask());
+                intent.setType("text/plain");
+                startActivity(Intent.createChooser(intent,getResources().getText(R.string.share_task)));
+            }
+        });
+
 
         return new AlertDialog.Builder(getActivity())
                 .setView(view)
@@ -121,5 +134,15 @@ public class DialogEditFragment extends DialogFragment {
         mDateButton = view.findViewById(R.id.date_picker_button);
         mTimeButton = view.findViewById(R.id.time_picker_button);
         mDoneCheckBox = view.findViewById(R.id.dialog_done_check_box);
+        mShareButton = view.findViewById(R.id.share_task_button);
+    }
+
+    private String getTextStringTask(){
+        DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
+        String dateString = dateFormat.format(mTask.getDate());
+        DateFormat timeFormat = new SimpleDateFormat("HH-mm-ss");
+        String timeString = timeFormat.format(mTask.getDate());
+        String doneString = mTask.getDone() ? getString(R.string.is_done) : getString( R.string.is_not_done);
+       return getString(R.string.share_task_text,mTask.getTitle(), mTask.getDescription(),dateString,timeString,doneString);
     }
 }

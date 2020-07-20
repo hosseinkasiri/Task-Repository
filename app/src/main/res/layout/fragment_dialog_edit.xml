@@ -57,11 +57,24 @@
             android:layout_marginTop="20dp"
             android:id="@+id/time_picker_button"/>
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <CheckBox
             android:id="@+id/dialog_done_check_box"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/done"/>
 
+        <ImageButton
+            android:id="@+id/share_task_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_share"
+            android:background="@null"
+            android:layout_gravity="right|center"
+            android:layout_marginRight="15dp"/>
+
+        </FrameLayout>
     </LinearLayout>
 </FrameLayout>
