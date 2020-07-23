@@ -3,6 +3,7 @@ import android.content.Context;
 
 import com.example.task.database.App;
 
+import java.io.File;
 import java.util.List;
 import java.util.UUID;
 
@@ -53,9 +54,10 @@ public class TaskLab {
     }
 
     public Task getTaskWithTitle(String titleTask){
-        return mTaskDao.queryBuilder()
+        Task task = mTaskDao.queryBuilder()
                 .where(TaskDao.Properties.Title.eq(titleTask))
-                .unique();
+                .uniqueOrThrow();
+        return task;
     }
 
     public void removeTask(Long id){
@@ -71,5 +73,11 @@ public class TaskLab {
 
     public void updateTask(Task task){
         mTaskDao.update(task);
+    }
+
+    public File getPhotoFile(Context context , Task task){
+        File fileDir = context.getFilesDir();
+        File photoFile = new File(fileDir,task.getPhotoName());
+        return photoFile;
     }
 }

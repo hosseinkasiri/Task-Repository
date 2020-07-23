@@ -45,7 +45,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskHolder> implements Fil
     @Override
     public void onBindViewHolder(@NonNull TaskHolder holder, int position) {
         Task task = mTasks.get(position);
-        holder.bind(task);
+        holder.bind(task , mContext);
     }
 
     @Override

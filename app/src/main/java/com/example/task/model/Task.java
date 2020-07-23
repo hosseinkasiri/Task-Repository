@@ -26,19 +26,22 @@ public class Task implements Serializable {
     private Date date;
     private boolean done;
     private Long userId;
-    @Generated(hash = 1687853154)
+    private String photoName;
+    @Generated(hash = 1573387333)
     public Task(Long id, String title, String description, Date date, boolean done,
-            Long userId) {
+            Long userId, String photoName) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.date = date;
         this.done = done;
         this.userId = userId;
+        this.photoName = photoName;
     }
     @Keep
     public Task() {
         date = new Date();
+
     }
 
     protected Task(Parcel in) {
@@ -91,5 +94,11 @@ public class Task implements Serializable {
     }
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+    public String getPhotoName() {
+        return "IMG_" + id + ".jpg";
+    }
+    public void setPhotoName(String photoName) {
+        this.photoName = photoName;
     }
 }

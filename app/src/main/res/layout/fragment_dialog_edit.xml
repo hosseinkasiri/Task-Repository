@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,12 +16,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="left">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
                 android:textSize="20dp"
-                android:text="Title :"/>
+                android:text="Title :" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -28,8 +34,36 @@
                 android:id="@+id/dialog_edit_title"
                 android:textColor="@color/buttonColorAdd"
                 android:textSize="20dp"
-                android:layout_gravity="center"/>
+                android:layout_marginLeft="5dp" />
 
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:layout_gravity="right|center">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/dialog_edit_image"
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
+                    app:civ_border_width="2dp"
+                    app:civ_border_color="#FF000000"
+                    android:background="@drawable/circle_button"/>
+
+                <ImageView
+                    android:id="@+id/button_menu"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_centerInParent="true"
+                    android:adjustViewBounds="true"
+                    android:elevation="4dp"
+                    android:padding="5dp"
+                    android:scaleType="fitXY"
+                    app:srcCompat="@android:drawable/ic_menu_camera" />
+
+            </RelativeLayout>
         </FrameLayout>
 
         <TextView

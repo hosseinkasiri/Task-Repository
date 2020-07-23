@@ -4,12 +4,15 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -17,25 +20,34 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.task.R;
+import com.example.task.helper.PictureUtils;
+import com.example.task.helper.Toaster;
 import com.example.task.model.Task;
 import com.example.task.model.TaskLab;
+import com.google.android.material.snackbar.Snackbar;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 public class DialogEditFragment extends DialogFragment {
 
     private static final String ARG_TASK = "com.example.task_task",DATE_TAG = "Date",TIME_TAG = "Time";
+    private static final String IMAGE_TAG = "image_tag";
     private TextView mTitleText;
     private EditText mDescriptionText;
     private Button mDateButton,mTimeButton;
     private ImageButton mShareButton;
+    private ImageView mEditImage;
     private CheckBox mDoneCheckBox;
     private Task mTask;
+    private File mPhotoFile;
     private DialogInterface.OnDismissListener mOnDismissListener;
 
     public DialogEditFragment(DialogInterface.OnDismissListener listener) {
@@ -43,12 +55,18 @@ public class DialogEditFragment extends DialogFragment {
     }
 
     public static DialogEditFragment newInstance(Task task, DialogInterface.OnDismissListener listener) {
-
         Bundle args = new Bundle();
         args.putSerializable(ARG_TASK,task);
         DialogEditFragment fragment = new DialogEditFragment(listener);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mTask = (Task) getArguments().getSerializable(ARG_TASK);
+        mPhotoFile = TaskLab.getInstance().getPhotoFile(getActivity(),mTask);
     }
 
     @NonNull
@@ -57,6 +75,7 @@ public class DialogEditFragment extends DialogFragment {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_dialog_edit,null);
         findViews(view);
         setTextAttribute();
+        updatePhotoView();
         mDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,6 +90,7 @@ public class DialogEditFragment extends DialogFragment {
 
             }
         });
+
         mTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,6 +105,7 @@ public class DialogEditFragment extends DialogFragment {
                 timePickerFragment.show(getFragmentManager(),TIME_TAG);
             }
         });
+
         mShareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,6 +113,14 @@ public class DialogEditFragment extends DialogFragment {
                 intent.putExtra(Intent.EXTRA_TEXT,getTextStringTask());
                 intent.setType("text/plain");
                 startActivity(Intent.createChooser(intent,getResources().getText(R.string.share_task)));
+            }
+        });
+
+        mEditImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogSelectTakePhoto dialogSelectTakePhoto = DialogSelectTakePhoto.newInstance(mTask);
+                dialogSelectTakePhoto.show(getFragmentManager(),IMAGE_TAG);
             }
         });
 
@@ -108,6 +137,8 @@ public class DialogEditFragment extends DialogFragment {
                 })
                 .setNegativeButton(android.R.string.cancel,null)
                 .create();
+
+
     }
 
     @Override
@@ -118,7 +149,6 @@ public class DialogEditFragment extends DialogFragment {
     }
 
     private void setTextAttribute() {
-        mTask = (Task) getArguments().getSerializable(ARG_TASK);
         mTitleText.setText(mTask.getTitle());
         mDescriptionText.setText(mTask.getDescription());
         DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
@@ -135,6 +165,7 @@ public class DialogEditFragment extends DialogFragment {
         mTimeButton = view.findViewById(R.id.time_picker_button);
         mDoneCheckBox = view.findViewById(R.id.dialog_done_check_box);
         mShareButton = view.findViewById(R.id.share_task_button);
+        mEditImage = view.findViewById(R.id.dialog_edit_image);
     }
 
     private String getTextStringTask(){
@@ -144,5 +175,18 @@ public class DialogEditFragment extends DialogFragment {
         String timeString = timeFormat.format(mTask.getDate());
         String doneString = mTask.getDone() ? getString(R.string.is_done) : getString( R.string.is_not_done);
        return getString(R.string.share_task_text,mTask.getTitle(), mTask.getDescription(),dateString,timeString,doneString);
+    }
+
+    private void updatePhotoView(){
+        if (mPhotoFile == null || !mPhotoFile.exists()) {
+            mEditImage.setImageDrawable(null);
+        }
+        else {
+            Bitmap bitmap = PictureUtils.getScaledBitmap(mPhotoFile.getPath(),getActivity());
+            Matrix matrix = new Matrix();
+            matrix.postRotate(90);
+            Bitmap rotate = Bitmap.createBitmap(bitmap,0,0,bitmap.getWidth(),bitmap.getHeight(),matrix,true);
+            mEditImage.setImageBitmap(rotate);
+        }
     }
 }
