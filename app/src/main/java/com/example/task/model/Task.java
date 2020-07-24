@@ -41,7 +41,6 @@ public class Task implements Serializable {
     @Keep
     public Task() {
         date = new Date();
-
     }
 
     protected Task(Parcel in) {

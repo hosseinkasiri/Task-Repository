@@ -32,10 +32,9 @@ public class DialogDescriptionFragment extends DialogFragment {
     private Task mTask;
     private File mPhotoFile;
     private ImageView mDescriptionImage;
-    private static final String ARG_TASK = "com.example.task_TASK";
+    private static final String ARG_TASK = "com.example.task_TASK" , TAG_IMAGE = "image_tag";
 
     public static DialogDescriptionFragment newInstance(Task task) {
-
         Bundle args = new Bundle();
         args.putSerializable(ARG_TASK,task);
         DialogDescriptionFragment fragment = new DialogDescriptionFragment();
@@ -69,7 +68,8 @@ public class DialogDescriptionFragment extends DialogFragment {
         mDescriptionImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Dialog_image dialog_image = Dialog_image.newInstance(mPhotoFile);
+                dialog_image.show(getFragmentManager(),TAG_IMAGE);
             }
         });
         return new AlertDialog.Builder(getActivity())

@@ -50,14 +50,12 @@ public class TaskLab {
         return mTaskDao.queryBuilder()
                 .where(TaskDao.Properties.Id.eq(id))
                 .unique();
-
     }
 
-    public Task getTaskWithTitle(String titleTask){
-        Task task = mTaskDao.queryBuilder()
-                .where(TaskDao.Properties.Title.eq(titleTask))
-                .uniqueOrThrow();
-        return task;
+    public Task getTaskWithText(String title){
+        return mTaskDao.queryBuilder()
+                .whereOr(TaskDao.Properties.Title.eq(title) , TaskDao.Properties.Description.eq(title))
+                .unique();
     }
 
     public void removeTask(Long id){

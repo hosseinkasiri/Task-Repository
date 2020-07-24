@@ -18,19 +18,20 @@ import com.example.task.R;
 import com.example.task.model.Task;
 import com.example.task.model.TaskLab;
 
+import java.nio.file.ProviderNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskHolder> implements Filterable {
     private List<Task> mTasks ;
-    private List<String> mAllTasks;
+    private List<Task> mAllTask;
     private Context mContext;
     private DialogInterface.OnDismissListener mListener;
 
     public TaskAdapter(Context context , List<Task> tasks, DialogInterface.OnDismissListener listener) {
         mTasks = tasks;
-        mAllTasks = new ArrayList<>(stringTasks(tasks));
+        mAllTask = tasks;
         mContext = context;
         mListener = listener;
     }
@@ -58,47 +59,32 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskHolder> implements Fil
         return filter;
     }
 
-    Filter filter = new Filter() {
+    private Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            List<String> titleTasks = new ArrayList<>();
-            if (constraint.toString().isEmpty())
-                titleTasks.addAll(mAllTasks);
-            else {
-                for (String task : mAllTasks){
-                    if (task.toLowerCase().contains(constraint.toString().toLowerCase()))
-                        titleTasks.add(task);
-                }
-            }
-            FilterResults filterResults = new FilterResults();
-            filterResults.values = titleTasks;
-            return filterResults;
+           List<Task> filterList = new ArrayList<>();
+
+           if (constraint.toString().isEmpty())
+               filterList.addAll(mAllTask);
+           else {
+              String filterPattern = constraint.toString().toLowerCase().trim();
+               for (Task task : mAllTask){
+                   if (task.getTitle().toLowerCase().contains(filterPattern) ||
+                           task.getDescription().toLowerCase().contains(filterPattern))
+                       filterList.add(task);
+               }
+           }
+           FilterResults filterResults = new FilterResults();
+           filterResults.values = filterList;
+           return filterResults;
         }
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            mTasks.clear();
-            List<String> stringTasks = new ArrayList<>();
-            stringTasks.addAll((Collection<? extends String>) results.values);
-            mTasks.addAll(getTasks(stringTasks));
-            notifyDataSetChanged();
+           mTasks.clear();
+           mTasks.addAll((ArrayList) results.values);
+           notifyDataSetChanged();
         }
     };
-
-    private List<String> stringTasks(List<Task> tasks){
-        List<String> stringTasks = new ArrayList<>();
-        for (Task task : tasks)
-            stringTasks.add(task.getTitle());
-
-        return stringTasks;
-    }
-
-    private List<Task> getTasks(List<String> titleTasks){
-        List<Task> tasks = new ArrayList<>();
-        for (String title : titleTasks)
-            tasks.add(TaskLab.getInstance().getTaskWithTitle(title));
-
-        return tasks;
-    }
 }
 

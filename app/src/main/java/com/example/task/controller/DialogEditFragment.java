@@ -123,8 +123,6 @@ public class DialogEditFragment extends DialogFragment {
                 dialogSelectTakePhoto.show(getFragmentManager(),IMAGE_TAG);
             }
         });
-
-
         return new AlertDialog.Builder(getActivity())
                 .setView(view)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -137,8 +135,12 @@ public class DialogEditFragment extends DialogFragment {
                 })
                 .setNegativeButton(android.R.string.cancel,null)
                 .create();
+    }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        updatePhotoView();
     }
 
     @Override
