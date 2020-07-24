@@ -31,7 +31,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskHolder> implements Fil
 
     public TaskAdapter(Context context , List<Task> tasks, DialogInterface.OnDismissListener listener) {
         mTasks = tasks;
-        mAllTask = tasks;
+        mAllTask = new ArrayList<>(tasks);
         mContext = context;
         mListener = listener;
     }

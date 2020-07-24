@@ -22,6 +22,7 @@ public class Dialog_image extends DialogFragment {
     private static final String ARGS_FILE = "com.example.task.controller_file";
     private ImageView mImageView;
     private File mPhotoFile;
+
     public static Dialog_image newInstance(File file) {
         Bundle args = new Bundle();
         args.putSerializable(ARGS_FILE , file);

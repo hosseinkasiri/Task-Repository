@@ -1,5 +1,6 @@
 package com.example.task.controller;
 
+import android.content.ClipData;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -49,6 +51,7 @@ public class TaskListFragment extends Fragment implements UpdatableUI {
     private TaskListMode mListMode;
     private Long mUserId;
     private User mUser;
+    private SearchView mSearchView;
 
     public TaskListFragment() {
     }
@@ -99,6 +102,8 @@ public class TaskListFragment extends Fragment implements UpdatableUI {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.list_toolbar_menu, menu);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        mSearchView = (SearchView) searchItem.getActionView();
     }
 
     @Override
@@ -121,9 +126,9 @@ public class TaskListFragment extends Fragment implements UpdatableUI {
                 }
                 break;
             case R.id.action_search:
-                SearchView searchView = (SearchView) item.getActionView();
-                searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
-                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            //    mSearchView = (SearchView) item.getActionView();
+                mSearchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+                mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                     @Override
                     public boolean onQueryTextSubmit(String query) {
                         return false;
@@ -136,7 +141,6 @@ public class TaskListFragment extends Fragment implements UpdatableUI {
                     }
                 });
                 break;
-
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -152,6 +156,15 @@ public class TaskListFragment extends Fragment implements UpdatableUI {
         }
         else {
             mImageView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onDisappear() {
+        if (mSearchView != null){
+            System.out.println("kir");
+            mSearchView.setIconified(true);
+            mSearchView.setIconified(true);
         }
     }
 
