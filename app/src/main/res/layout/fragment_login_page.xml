@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/username"
-            android:layout_marginTop="30dp"/>
+            android:layout_marginTop="100dp"/>
 
         <EditText
             android:id="@+id/username_edit_text"

@@ -4,14 +4,18 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,11 +37,16 @@ import com.example.task.model.TaskLab;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
-public class DialogEditFragment extends DialogFragment {
+import static android.app.Activity.RESULT_OK;
 
+public class DialogEditFragment extends DialogFragment {
     private static final String ARG_TASK = "com.example.task_task",DATE_TAG = "Date",TIME_TAG = "Time";
     private static final String IMAGE_TAG = "image_tag";
     private TextView mTitleText;
@@ -120,6 +129,7 @@ public class DialogEditFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 DialogSelectTakePhoto dialogSelectTakePhoto = DialogSelectTakePhoto.newInstance(mTask);
+                dialogSelectTakePhoto.setTargetFragment(DialogEditFragment.this,2);
                 dialogSelectTakePhoto.show(getFragmentManager(),IMAGE_TAG);
             }
         });
@@ -184,11 +194,25 @@ public class DialogEditFragment extends DialogFragment {
             mEditImage.setImageDrawable(null);
         }
         else {
-            Bitmap bitmap = PictureUtils.getScaledBitmap(mPhotoFile.getPath(),getActivity());
-            Matrix matrix = new Matrix();
-            matrix.postRotate(90);
-            Bitmap rotate = Bitmap.createBitmap(bitmap,0,0,bitmap.getWidth(),bitmap.getHeight(),matrix,true);
-            mEditImage.setImageBitmap(rotate);
+            Bitmap bitmap = BitmapFactory.decodeFile(mPhotoFile.getPath());
+            mEditImage.setImageBitmap(bitmap);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && data != null && requestCode == DialogSelectTakePhoto.getReqGallery()) {
+            try {
+                final Uri imageUri = data.getData();
+                final InputStream imageStream = getActivity().getContentResolver().openInputStream(imageUri);
+                FileOutputStream out = new FileOutputStream(TaskLab.getInstance().getPhotoFile(getContext(),mTask).getAbsolutePath());
+                BitmapFactory.decodeStream(imageStream).compress(Bitmap.CompressFormat.JPEG, 100, out);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+
+            }
+            return;
         }
     }
 }

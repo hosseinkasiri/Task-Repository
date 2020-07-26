@@ -30,7 +30,6 @@ import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
 
-
     private static final String USER_ID = "com.example.task.controller_userId";
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
@@ -51,16 +50,13 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         findViews();
         mUserId = (Long) getIntent().getSerializableExtra(USER_ID);
         fragments = new ArrayList<>();
-        fragments.add(TaskListFragment.newInstance(TaskListMode.all,mUserId));
-        fragments.add(TaskListFragment.newInstance(TaskListMode.done,mUserId));
-        fragments.add(TaskListFragment.newInstance(TaskListMode.unDone,mUserId));
+        addToFragments();
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment((Fragment) fragments.get(0) , "All" );
         adapter.addFragment((Fragment) fragments.get(1) , "Done");
         adapter.addFragment((Fragment) fragments.get(2), "UnDone");
         mViewPager.setAdapter(adapter);
         mTabLayout.setupWithViewPager(mViewPager);
-        mTabLayout.addOnTabSelectedListener(this);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -75,6 +71,12 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
             public void onPageScrollStateChanged(int state) {
             }
         });
+    }
+
+    private void addToFragments() {
+        fragments.add(TaskListFragment.newInstance(TaskListMode.all,mUserId));
+        fragments.add(TaskListFragment.newInstance(TaskListMode.done,mUserId));
+        fragments.add(TaskListFragment.newInstance(TaskListMode.unDone,mUserId));
     }
 
     private void findViews() {
