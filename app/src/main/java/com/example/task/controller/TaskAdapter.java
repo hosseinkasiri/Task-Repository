@@ -43,6 +43,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskHolder> implements Fil
         return new TaskHolder(view,mListener);
     }
 
+    public void setTasks(List<Task> tasks) {
+        mTasks = tasks;
+        mAllTask = tasks;
+        notifyDataSetChanged();
+    }
+
     @Override
     public void onBindViewHolder(@NonNull TaskHolder holder, int position) {
         Task task = mTasks.get(position);

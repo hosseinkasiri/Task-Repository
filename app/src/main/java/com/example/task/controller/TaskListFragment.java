@@ -69,6 +69,7 @@ public class TaskListFragment extends Fragment implements UpdatableUI {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
     }
 
     @Override
@@ -149,8 +150,13 @@ public class TaskListFragment extends Fragment implements UpdatableUI {
 
     public void updateUi() {
         mTasks =  TaskLab.getInstance().getTasks(mListMode,mUserId);
-        mAdapter = new TaskAdapter(getActivity(), mTasks,mListener);
-        mRecyclerView.setAdapter(mAdapter);
+        if (mAdapter == null) {
+            mAdapter = new TaskAdapter(getActivity(), mTasks,mListener);
+            mRecyclerView.setAdapter(mAdapter);
+        }else {
+            mAdapter.setTasks(mTasks);
+        }
+
         if (mTasks.size() != 0){
             mImageView.setVisibility(View.GONE);
         }

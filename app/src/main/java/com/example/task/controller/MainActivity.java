@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         adapter.addFragment((Fragment) fragments.get(2), "UnDone");
         mViewPager.setAdapter(adapter);
         mTabLayout.setupWithViewPager(mViewPager);
+        mViewPager.setOffscreenPageLimit(3);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

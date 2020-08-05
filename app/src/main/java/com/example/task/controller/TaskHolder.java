@@ -29,6 +29,7 @@ import com.example.task.helper.PictureUtils;
 import com.example.task.model.Task;
 import com.example.task.model.TaskLab;
 import com.google.android.material.snackbar.Snackbar;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -88,11 +89,7 @@ class TaskHolder extends RecyclerView.ViewHolder implements View.OnClickListener
             mImagePhoto.setImageDrawable(null);
             mImagePhoto.setBackground(ContextCompat.getDrawable(context,R.drawable.circle_button));
         } else {
-            Bitmap bitmap = PictureUtils.getScaledBitmap(mPhotoFile.getPath(),(Activity)context);
-            Matrix matrix = new Matrix();
-            matrix.postRotate(90);
-            Bitmap rotate = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-           mImagePhoto.setImageBitmap(rotate);
+            Picasso.get().load(mPhotoFile).resize(200,200).into(mImagePhoto);
            mFirstText.setText("");
         }
     }
